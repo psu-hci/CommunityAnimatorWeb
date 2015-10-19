@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  <title>Community Animator</title>
+  <meta name="description" content="My Parse App">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>  
+</head>
+
+<body>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+	  
+	  
+      <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="newuser.html">New Users</a></li>
+        <li><a href="login.html">Existing Users</a></li>
+        <li><a href="main.html">Current User</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div id="main">
+	<div id = 'welcome'></div>
+	
+	<div class = "row">
+		<div class = "col s3">&nbsp</div>
+		<div class = "col s6">
+		<div id = 'users'><center><button id = "users" onclick = "displayUsers()">See all users</button></center></div><br/>
+		</div>
+	</div>
+	
+	<div class = "row">
+		<div class = "col s4">&nbsp</div>
+		<div class = "col s4">
+		<div id = 'interests'><center><button id = "users" onclick = "displayInterests()">See all interests</button></center></div>
+		</div>
+	</div>
+		
+	
+	<center><br/><a href ="index.html">Back to main screen</a></center><br/>
+  </div>
+  	
+  
+  <script type="text/javascript">
+    Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
+    var tbl = "<br/><center><table class = 'striped'><th>Username</th><th>Email</th><th>Gender</th><th>Occupation</th>";
+	var intTbl = "<br/><center><table border = 1 class = 'striped'><th>Interests</th>"
+	
+	Parse.User.current().fetch().then(function (user) {
+    document.getElementById("welcome").innerHTML = "<center><h2>Welcome " + user.get('username') + "!</h2></center>";
+	
+	var q2 = new Parse.Query(Parse.User);
+	q2.find({success:function(items){
+	
+	$.each(items,function(i,item){
+		var obj = JSON.parse(JSON.stringify(item));
+		tbl += "<tr><td> " + obj.username + "</td><td> " + obj.email + " </td><td> " + obj.gender + " </td><td> " + obj.occupation + " </td></tr>";
+		//alert(obj.username);
+		});
+	}});
+	
+	var q3 = new Parse.Query(Parse.Object.extend("Interest"));
+	q3.find({success:function(items){
+	
+	$.each(items,function(i,item){
+		var obj = JSON.parse(JSON.stringify(item));
+		intTbl += "<tr><td> " + obj.interestName + " </td></tr>";
+		//alert(obj.username);
+		});
+	}});
+	
+	});
+	
+	function displayUsers()
+	{
+		tbl = tbl + "</table></center>";
+		//alert(tbl);
+		document.getElementById("users").innerHTML = tbl;
+	}
+	
+	function displayInterests()
+	{
+		intTbl = intTbl + "</table></center>";
+		//alert(tbl);
+		document.getElementById("interests").innerHTML = intTbl;
+	}
+
+
+  </script>
+</body>
+
+</html>

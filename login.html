@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  <title>Community Animator</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+</head>
+
+<body>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+  
+  
+    <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="newuser.html">New Users</a></li>
+        <li><a href="login.html">Existing Users</a></li>
+        <li><a href="main.html">Current User</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div id="main">
+    <h1><center>Community Animator</center></h1>
+	<div class = "row">
+		<form class="col s12">
+			<div class="input-field col s4"></div>
+			<div class="input-field col s4">
+			Username: <input placeholder="username" type="text" name="username" id="username"/></div>
+	</div>
+	<div class = "row">
+			<div class="input-field col s4"></div>
+			<div class="input-field col s4">
+			Password:<input placeholder="password" type="password" name="password" id ="password" onkeydown="if (event.keyCode == 13) document.getElementById('submitLogin').click()"/></div>
+		</form>
+	</div>
+
+	<br/>
+	
+	<center>
+	<input type="button" id = "submitLogin" value="Submit" onclick="login(document.getElementById('username').value, document.getElementById('password').value)"/>
+	<br/><br/><a href ="index.html">Back to main page</a>
+	</center>
+	 
+  </div>
+  
+  <script type="text/javascript">
+    Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
+    
+	function login(username, password)
+	{
+	Parse.User.logIn(username, password, {
+	  success: function(user) {
+		window.location="main.html";
+	  },
+	  error: function(user, error) {
+		alert("Username or password incorrect, please try again");
+	  }
+	});
+	}
+
+  </script>
+</body>
+
+</html>
