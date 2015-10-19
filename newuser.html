@@ -60,7 +60,7 @@
 		<form class="col s12">
 			<div class="input-field col s4"></div>
 			<div class="input-field col s4">
-			Date of Birth:<input class = "datepicker" type="date" name="datebirth" id = "datebirth"/></div>
+			Date of Birth (mm/dd/yyyy):<input type="text" name="datebirth" id = "datebirth"/></div>
 	</div>
 	<div class = "row">
 			<div class="input-field col s4"></div>
@@ -103,7 +103,10 @@
 		user.set("image", false);
 		user.set("reminder", true);
 		user.set("status", true);	
-		user.set("view", true)
+		user.set("view", true);
+		user.set("interestList", ["ZfQBlXqdg8","YmhEi4uo2m","BnXWg7k1P4","fa3Nx3F2uW","eJJEe8k6Js","UpM7ijuW8p","DvLdrPN5da","3mgqSUq6r3","zVT0JZoTZq","N29x8Xbz4j","c36TgxZXkZ","jK4eMH6xdu","mdqSCiZg2f","cC4OJ1BIfr","EW5PZBF614","2O6bxbvA5N","qlnPM8vFem","nDvaQM1G1Q"]);
+		user.set("taskList", ["HJQNYCjCVh","VnzL2zL9t3","V3EMgSnf5n","IBTMRilOMd","dyn41K21cj","zaOBqlp1QQ","DhJajymNmk","wa9GZmozMJ","OoVzEhcNAf"]);
+		user.set("location", new Parse.GeoPoint({latitude: 40.793842, longitude: -77.8676502}));
 		  
 		user.signUp(null, {
 		  success: function(user) {
