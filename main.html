@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 100%; }
-    </style>
+
   <title>Community Animator</title>
   <meta name="description" content="My Parse App">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>  
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+    <style type="text/css">
+      #map { height: 100%; }
+    </style>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 	  
 	  
       <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper orange">
       <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="newuser.html">New Users</a></li>
@@ -32,7 +32,20 @@
   <div id="main">
 	<div id = 'welcome'></div>
 	
+		<div class = "row">
+		<!-- Switch -->
+		  <center><div id = "switch0" class="switch">
+			<label>
+			  Busy
+			  <input id = "switch1" type="checkbox" onclick="updateStatus()">
+			  <span class="lever"></span>
+			  Animated
+			</label>
+		  </div></center>
+		  </div>
+		  
 	<div class = "row">
+		<br/><br/>
 		<div class = "col s3">&nbsp</div>
 		<div class = "col s6">
 		<div id = 'users'><center><button id = "users" onclick = "displayUsers()">See all users</button></center></div><br/>
@@ -45,6 +58,22 @@
 		<div id = 'interests'><center><button id = "users" onclick = "displayInterests()">See all interests</button></center></div>
 		</div>
 	</div>
+	
+	    <div id="map"></div>
+    <script type="text/javascript">
+
+		var map;
+		function initMap() {
+		  map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: -34.397, lng: 150.644},
+			zoom: 8
+		  });
+		}
+
+			</script>
+			<script async defer
+			  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABEC6CnoN-OnqTOp_3U88bowd_cCiXJZw&callback=initMap">
+			</script>
 		
 	
 	<center><br/><a href ="index.html">Back to main screen</a></center><br/>
@@ -58,6 +87,19 @@
 	
 	Parse.User.current().fetch().then(function (user) {
     document.getElementById("welcome").innerHTML = "<center><h2>Welcome " + user.get('username') + "!</h2></center>";
+	
+	//alert(Parse.User.current().get('status'));
+	if(Parse.User.current().get('status') === false)
+		{
+		//alert("it works/false");
+		document.getElementById('switch1').checked = false;
+		}
+		else
+		{
+		//alert("it works/true");
+		document.getElementById('switch1').checked = true;		
+		}
+	
 	
 	var q2 = new Parse.Query(Parse.User);
 	q2.find({success:function(items){
@@ -93,6 +135,23 @@
 		intTbl = intTbl + "</table></center>";
 		//alert(tbl);
 		document.getElementById("interests").innerHTML = intTbl;
+	}
+	
+	function updateStatus()
+	{
+		if(Parse.User.current().get('status') === false)
+		{
+		var currentUser = Parse.User.current();
+		currentUser.set('status', true);
+		return currentUser.save();
+		}
+		else
+		{
+		var currentUser = Parse.User.current();
+		currentUser.set('status', false);
+		return currentUser.save();
+		}
+		
 	}
 
 
