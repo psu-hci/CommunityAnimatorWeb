@@ -69,7 +69,90 @@
 		</form>
 	</div>
 	
+	<div class = "row">
+	<div class="input-field col s4"></div>
+			<div class="input-field col s4">
+	<center>
+	Interests (check all that apply)
+	<p>
+      <input type="checkbox" id="ag" />
+      <label for="ag">Agriculture and Food</label>
+    </p>
+    <p>
+      <input type="checkbox" id="arts" />
+      <label for="arts">Arts and Culture</label>
+    </p>
+    <p>
+            <input type="checkbox" id="built" />
+      <label for="built">Built Environment</label>
+    </p>
+    <p>
+            <input type="checkbox" id="bus" />
+      <label for="bus">Business and Economy</label>
+    </p>
+      <p>
+              <input type="checkbox" id="civ" />
+      <label for="civ">Civil Engagement</label>
+    </p>
+	<p>
+              <input type="checkbox" id="comm" />
+      <label for="comm">Communication</label>
+    </p>
+	<p>
+              <input type="checkbox" id="commev" />
+      <label for="commev">Community Events</label>
+    </p>
+	<p>
+              <input type="checkbox" id="commgroup" />
+      <label for="commgroup">Community Groups</label>
+    </p>
+	<p>
+              <input type="checkbox" id="commproj" />
+      <label for="commproj">Community Projects</label>
+    </p>
+	<p>
+              <input type="checkbox" id="edu" />
+      <label for="edu">Education and Learning</label>
+    </p>
+	<p>
+              <input type="checkbox" id="energy" />
+      <label for="energy">Energy</label>
+    </p>
+	<p>
+              <input type="checkbox" id="ent" />
+      <label for="ent">Entrepeneurship</label>
+    </p>
+	<p>
+              <input type="checkbox" id="health" />
+      <label for="health">Health and Wellness</label>
+    </p>
+	<p>
+              <input type="checkbox" id="nature" />
+      <label for="nature">Nature, Climate Change</label>
+    </p>
+	<p>
+              <input type="checkbox" id="politics" />
+      <label for="politics">Politics</label>
+    </p>
+		<p>
+              <input type="checkbox" id="rec" />
+      <label for="rec">Recreation and Leisure</label>
+    </p>
+		<p>
+              <input type="checkbox" id="tech" />
+      <label for="tech">Technology</label>
+    </p>
+		<p>
+              <input type="checkbox" id="trans" />
+      <label for="trans">Transportation and Parking</label>
+    </p>
+	
+	
 	</center>
+	</div>
+	</div>
+	
+	
 	<br/>
 	<br/>
 	
@@ -87,10 +170,12 @@
 		selectYears: 100 // Creates a dropdown of 15 years to control year		
 	});
   
+	var interestList = [];
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
     
 	function createUser(username, password, email, gender, datebirth, occupation)
 	{
+		createInterestList();
 		var user = new Parse.User();
 		user.set("username", username);
 		user.set("password", password);
@@ -104,8 +189,7 @@
 		user.set("reminder", true);
 		user.set("status", true);	
 		user.set("view", true);
-		user.set("interestList", ["ZfQBlXqdg8","YmhEi4uo2m","BnXWg7k1P4","fa3Nx3F2uW","eJJEe8k6Js","UpM7ijuW8p","DvLdrPN5da","3mgqSUq6r3","zVT0JZoTZq","N29x8Xbz4j","c36TgxZXkZ","jK4eMH6xdu","mdqSCiZg2f","cC4OJ1BIfr","EW5PZBF614","2O6bxbvA5N","qlnPM8vFem","nDvaQM1G1Q"]);
-		user.set("taskList", ["HJQNYCjCVh","VnzL2zL9t3","V3EMgSnf5n","IBTMRilOMd","dyn41K21cj","zaOBqlp1QQ","DhJajymNmk","wa9GZmozMJ","OoVzEhcNAf"]);
+		user.set("interestList", interestList);
 		user.set("location", new Parse.GeoPoint({latitude: 40.793842, longitude: -77.8676502}));
 		  
 		user.signUp(null, {
@@ -118,6 +202,90 @@
 			alert("Error: " + error.code + " " + error.message);
 		  }
 		});
+	}
+	
+	function createInterestList()
+	{
+		while (interestList.length) { interestList.pop(); }
+		
+		if(document.getElementById('ag').checked)
+		{
+			interestList.push("ZfQBlXqdg8");
+		}
+		if(document.getElementById('arts').checked)
+		{
+			interestList.push("YmhEi4uo2m");
+		}
+		if(document.getElementById('built').checked)
+		{
+			interestList.push("BnXWg7k1P4");
+		}
+		if(document.getElementById('bus').checked)
+		{
+			interestList.push("fa3Nx3F2uW");
+		}
+		if(document.getElementById('civ').checked)
+		{
+			interestList.push("eJJEe8k6Js");
+		}
+		if(document.getElementById('comm').checked)
+		{
+			interestList.push("UpM7ijuW8p");
+		}
+		if(document.getElementById('comm').checked)
+		{
+			interestList.push("UpM7ijuW8p");
+		}
+		if(document.getElementById('commev').checked)
+		{
+			interestList.push("DvLdrPN5da");
+		}
+		if(document.getElementById('commgroup').checked)
+		{
+			interestList.push("zVT0JZoTZq");
+		}
+		if(document.getElementById('commproj').checked)
+		{
+			interestList.push("zVT0JZoTZq");
+		}
+		if(document.getElementById('edu').checked)
+		{
+			interestList.push("N29x8Xbz4j");
+		}
+		if(document.getElementById('energy').checked)
+		{
+			interestList.push("c36TgxZXkZ");
+		}
+		if(document.getElementById('ent').checked)
+		{
+			interestList.push("jK4eMH6xdu");
+		}
+		if(document.getElementById('health').checked)
+		{
+			interestList.push("mdqSCiZg2f");
+		}
+		if(document.getElementById('nature').checked)
+		{
+			interestList.push("cC4OJ1BIfr");
+		}
+		if(document.getElementById('politics').checked)
+		{
+			interestList.push("EW5PZBF614");
+		}
+		if(document.getElementById('rec').checked)
+		{
+			interestList.push("2O6bxbvA5N");
+		}
+		if(document.getElementById('tech').checked)
+		{
+			interestList.push("qlnPM8vFem");
+		}
+		if(document.getElementById('trans').checked)
+		{
+			interestList.push("nDvaQM1G1Q");
+		}
+		alert(interestList);
+		
 	}
   </script>
 </body>

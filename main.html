@@ -18,7 +18,7 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
 	  
 	  
-      <nav>
+   <nav>
     <div class="nav-wrapper orange">
       <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -31,7 +31,6 @@
   
   <div id="main">
 	<div id = 'welcome'></div>
-	
 		<div class = "row">
 		<!-- Switch -->
 		  <center><div id = "switch0" class="switch">
@@ -45,7 +44,6 @@
 		  </div>
 		  
 	<div class = "row">
-		<br/><br/>
 		<div class = "col s3">&nbsp</div>
 		<div class = "col s6">
 		<div id = 'users'><center><button id = "users" onclick = "displayUsers()">See all users</button></center></div><br/>
@@ -58,31 +56,13 @@
 		<div id = 'interests'><center><button id = "users" onclick = "displayInterests()">See all interests</button></center></div>
 		</div>
 	</div>
-	
-	    <div id="map"></div>
-    <script type="text/javascript">
-
-		var map;
-		function initMap() {
-		  map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: -34.397, lng: 150.644},
-			zoom: 8
-		  });
-		}
-
-			</script>
-			<script async defer
-			  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABEC6CnoN-OnqTOp_3U88bowd_cCiXJZw&callback=initMap">
-			</script>
-		
-	
 	<center><br/><a href ="index.html">Back to main screen</a></center><br/>
   </div>
   	
   
   <script type="text/javascript">
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
-    var tbl = "<br/><center><table class = 'striped'><th>Username</th><th>Email</th><th>Gender</th><th>Occupation</th>";
+    var tbl = "<br/><center><table class = 'striped'><th><center>Icon<center></th><th><center>Username</center></th><th><center>Status</center></th>";
 	var intTbl = "<br/><center><table border = 1 class = 'striped'><th>Interests</th>"
 	
 	Parse.User.current().fetch().then(function (user) {
@@ -106,7 +86,12 @@
 	
 	$.each(items,function(i,item){
 		var obj = JSON.parse(JSON.stringify(item));
-		tbl += "<tr><td> " + obj.username + "</td><td> " + obj.email + " </td><td> " + obj.gender + " </td><td> " + obj.occupation + " </td></tr>";
+		var anim  = "Busy";
+		if(obj.status === true)
+		{
+		 anim = "Animated";
+		}
+		tbl += "<tr><td><center><img src = 'images/user.png' width = '50' height = '50'/></center></td><td><center>" + obj.username + "</center></td><td><center> " + anim + " </center></td></tr>";
 		//alert(obj.username);
 		});
 	}});
@@ -120,7 +105,6 @@
 		//alert(obj.username);
 		});
 	}});
-	
 	});
 	
 	function displayUsers()
