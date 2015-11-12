@@ -21,7 +21,7 @@
   
     <nav>
     <div class="nav-wrapper orange">
-      <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
+      <a href="index.html" class="brand-logo">&nbsp&nbspCommunity Animator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="newuser.html">New Users</a></li>
         <li><a href="login.html">Existing Users</a></li>
@@ -48,15 +48,18 @@
 	<br/>
 	
 	<center>
-	<input type="button" id = "submitLogin" value="Submit" onclick="login(document.getElementById('username').value, document.getElementById('password').value)"/>
-	<br/><br/><a href ="index.html">Back to main page</a>
+	<a class="waves-effect waves-light btn orange lighten-2" id = "submitLogin" value="Submit" onclick="login(document.getElementById('username').value, document.getElementById('password').value)">Submit</a>
 	</center>
 	 
   </div>
   
   <script type="text/javascript">
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
-    
+	
+	var val = sessionStorage.user;
+	
+	alert(user);
+
 	function login(username, password)
 	{
 	Parse.User.logIn(username, password, {
@@ -64,7 +67,7 @@
 		window.location="main.html";
 	  },
 	  error: function(user, error) {
-		alert("Username or password incorrect, please try again");
+		Materialize.toast("Username or password incorrect, please try again", 4000) // 4000 is the duration of the toast
 	  }
 	});
 	}

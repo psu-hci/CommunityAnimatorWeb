@@ -7,10 +7,14 @@
     </style>
   <title>Community Animator</title>
   <meta name="description" content="My Parse App">
-  <meta name="viewport" content="width=device-width">
+
+
+
    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
 </head>
 
 <body>
@@ -20,7 +24,7 @@
   
     <nav>
     <div class="nav-wrapper orange">
-      <a href="#" class="brand-logo">&nbsp&nbspCommunity Animator</a>
+      <a href="index.html" class="brand-logo">&nbsp&nbspCommunity Animator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="newuser.html">New Users</a></li>
         <li><a href="login.html">Existing Users</a></li>
@@ -146,19 +150,25 @@
               <input type="checkbox" id="trans" />
       <label for="trans">Transportation and Parking</label>
     </p>
-	
-	
+		<br/>
+	<br/>
+	<hr/>
 	</center>
 	</div>
 	</div>
 	
 	
+
+	<i>Click map</i> to select location
 	<br/>
 	<br/>
+	<div id="map"></div>
 	
 	<center>
-	<input type="button" value="Submit" onclick="createUser(document.getElementById('username').value, document.getElementById('password').value, document.getElementById('email').value, document.getElementById('gender').value, document.getElementById('datebirth').value, document.getElementById('occupation').value)"/>
-    <br/><br/><a href ="index.html">Back to main page</a>
+	<br/>
+	<br/>
+	<a class="waves-effect waves-light btn orange lighten-2" value="Submit" onclick="createUser(document.getElementById('username').value, document.getElementById('password').value, document.getElementById('email').value, document.getElementById('gender').value, document.getElementById('datebirth').value, document.getElementById('occupation').value)">Submit</a>
+    <br/><br/><br/>
 	</center>
 	<br/>
   </div>
@@ -169,7 +179,7 @@
 		selectMonths: true, // Creates a dropdown to control month
 		selectYears: 100 // Creates a dropdown of 15 years to control year		
 	});
-  
+	
 	var interestList = [];
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
     
@@ -190,18 +200,35 @@
 		user.set("status", true);	
 		user.set("view", true);
 		user.set("interestList", interestList);
-		user.set("location", new Parse.GeoPoint({latitude: 40.793842, longitude: -77.8676502}));
-		  
+		user.set("location", new Parse.GeoPoint({latitude: latitude, longitude: longitude}));
+		
+		sessionStorage.user = username;
+		
 		user.signUp(null, {
 		  success: function(user) {
-			alert("Account created successfully!");
-			window.location="login.html";
+			Materialize.toast("Account created successfully!", 4000) // 4000 is the duration of the toast
+			login(username, password);
+			//window.location="login.html";
 		  },
 		  error: function(user, error) {
 			// Show the error message somewhere and let the user try again.
-			alert("Error: " + error.code + " " + error.message);
+			Materialize.toast("Error: " + error.code + " " + error.message, 4000) // 4000 is the duration of the toast
+			//alert("Error: " + error.code + " " + error.message);
 		  }
 		});
+	}
+	
+	
+	function login(username, password)
+	{
+	Parse.User.logIn(username, password, {
+	  success: function(user) {
+		window.location="main.html";
+	  },
+	  error: function(user, error) {
+		Materialize.toast("Username or password incorrect, please try again", 4000) // 4000 is the duration of the toast
+	  }
+	});
 	}
 	
 	function createInterestList()
@@ -284,10 +311,78 @@
 		{
 			interestList.push("nDvaQM1G1Q");
 		}
-		alert(interestList);
+		//alert(interestList);
 		
 	}
+		var map;
+		var markers = [];
+		var latitude;
+		var longitude;
+
+		
+		
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 40.799361, lng: -77.862548},
+    zoom: 14,
+	mapTypeId: google.maps.MapTypeId.HYBRID
+  });
+  
+
+    map.addListener('click', function(e) {
+    placeMarkerAndPanTo(e.latLng, map);
+  });
+  
+   // This event listener will call addMarker() when the map is clicked.
+  map.addListener('click', function(event) {
+    addMarker(event.latLng);
+  });
+  
+  // Adds a marker to the map and push to the array.
+function addMarker(location) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+  markers.push(marker);
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+  setMapOnAll(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+  setMapOnAll(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
+  
+  function placeMarkerAndPanTo(latLng, map) {
+  deleteMarkers();
+  addMarker(latLng);
+  latitude = latLng.lat();	
+  longitude = latLng.lng();
+  map.panTo(latLng);
+}
+}
+	
   </script>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCOtpN56Gw40PafvxzDl_mmHQZ8ARyeoA&callback=initMap"
+        async defer></script>
 </body>
 
 </html>
