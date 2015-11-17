@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Update Location</title>
+	<title>User Map</title>
     <style type="text/css">
       html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 80%; width: 100%}
+      #map { height: 100%; width: 100%}
     </style>
 	   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
@@ -31,29 +31,29 @@
       <a href="main.html" class="brand-logo"><img src = "images/logo.jpg"></img></a>
 	        <ul id="nav-mobile" class="right hide-on-med-and-down">
 		<li><a href="main.html"><font color="orange">Home</font></a></li>
-		<li><a href="usermap.html"><font color="orange">User Map</font></a></li>
-		<li class = "active"><a href="map.html"><font color="orange"><b>Update Location</b></font></a></li>
+		<li class = "active"><a href="usermap.html"><font color="orange"><b>User Map</b></font></a></li>
+		<li class><a href="map.html"><font color="orange">Update Location</font></a></li>
 		<li><a href="index.html"><font color="orange">Log Out</font></a></li>
       </ul>
     </div>
   </nav>
-	<center><h2>Update Location</h2></center>
-	<center><h6><i>Click to drop new pin</i></h6>	
+	<center><h2>View All Users</h2></center>
+	<center><h6><i>Click on pin for more information</i></h6>	
 	<br/>
-    <center><div id="map"></div></center>
+    <div id="map"></div>
 	<br/><br/>
-	 <center><button class="btn waves-effect waves-light orange" type="submit" name="action" onclick="updateLocation()">Update
-    
-  </button></center>
 	
     <script type="text/javascript">
 
+	
+	
 	Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
 	
 	var map;
 	var markers = [];
 	var latitude;
 	var longitude;
+	var currentUsername;
 	
 	
 	function initMap() {
@@ -64,40 +64,106 @@
 	});
   
 		Parse.User.current().fetch().then(function (user) {
+		currentUsername = user.get('username');
 		latitude = user.get('location').latitude;
 		longitude= user.get('location').longitude;
-		addOldMarker({lat: latitude, lng: longitude});
 		map.panTo({lat: latitude, lng: longitude});
+		addUserMarker({lat: latitude, lng: longitude}, user.get('username'), user.get('status'), user.get('occupation'));
 		});
 		
-		map.addListener('click', function(e) {
-		placeMarkerAndPanTo(e.latLng, map);
-	});
-  
-   // This event listener will call addMarker() when the map is clicked.
-	map.addListener('click', function(event) {
-    addMarker(event.latLng);
-  });
-  
-  // Adds a marker to the map and push to the array.
-	function addMarker(location) {
-	  var marker = new google.maps.Marker({
-		position: location,
-		map: map,
-		icon: 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png',
-	  });
-	  markers.push(marker);
-	}
+		var q2 = new Parse.Query(Parse.User);
+		q2.find({success:function(items){
+		$.each(items,function(i,item){
+		var obj = JSON.parse(JSON.stringify(item));
+		try{
+		latitude = obj.location.latitude;
+		longitude= obj.location.longitude;
+		}
+		catch(err)
+		{
+		}
+		if(obj.username === currentUsername)
+		{
+		}
+		else
+		{
+		addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList);
+		}
+		});
+	}});
 	
 	  // Adds a marker to the map and push to the array.
-	function addOldMarker(location) {
+	function addOldMarker(location, username, status, occupation, email, interestList) {
 	  var marker = new google.maps.Marker({
 		position: location,
 		map: map,
 		animation: google.maps.Animation.DROP,
-		icon: 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png',
-		title:"Previous Location"
+		icon: 'http://maps.google.com/mapfiles/ms/micons/red-dot.png',
+		title: username
 	  });
+	  var stat = "Animated";
+	  if(status === false)
+	  {
+	  stat = "Busy";
+	  }
+	  
+	  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<div id="bodyContent">'+
+      '<p><b>' + username + '</b><br/>'+
+	  '• ' + stat + 
+	  '<br/>• ' + occupation + 
+	  '<br/>• ' + email + 
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+	  
+	marker.addListener('click', function() {
+    infowindow.open(map, marker);
+	});
+	  
+	  markers.push(marker);
+	}
+	
+		function addUserMarker(location, username, status, occupation) {
+		
+		var image = 'images/me.png';
+		
+	  var marker = new google.maps.Marker({
+		position: location,
+		map: map,
+		icon: 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png',
+		animation: google.maps.Animation.DROP,
+		title: username,
+	  });
+	  var stat = "Animated";
+	  if(status === false)
+	  {
+	  stat = "Busy";
+	  }
+	  
+	  
+	  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<div id="bodyContent">'+
+      '<p><b>' + 'My Location'+ '</b>' + 
+	  '<br/>• ' + stat + 
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+	  
+	marker.addListener('click', function() {
+    infowindow.open(map, marker);
+	});
+	  
 	  markers.push(marker);
 	}
 
@@ -132,14 +198,6 @@
   map.panTo(latLng);
 }
 }
-	function updateLocation(){
-		
-		var user = Parse.User.current();
-		Materialize.toast("Location Updated!", 4000) // 4000 is the duration of the toast
-		user.set("location", new Parse.GeoPoint({latitude: latitude, longitude: longitude}));
-		return user.save();
-		
-	}
     </script>
 	
     <script async defer
