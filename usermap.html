@@ -32,6 +32,7 @@
 	        <ul id="nav-mobile" class="right hide-on-med-and-down">
 		<li><a href="main.html"><font color="orange">Home</font></a></li>
 		<li class = "active"><a href="usermap.html"><font color="orange"><b>User Map</b></font></a></li>
+		<li><a href="userlist.html"><font color="orange">User List</font></a></li>
 		<li class><a href="map.html"><font color="orange">Update Location</font></a></li>
 		<li><a href="index.html"><font color="orange">Log Out</font></a></li>
       </ul>
@@ -54,6 +55,25 @@
 	var latitude;
 	var longitude;
 	var currentUsername;
+	
+	var intList = [];
+	var interest = Parse.Object.extend("Interest");
+	var query2 = new Parse.Query(interest);
+	query2.find({
+		success: function(results) {
+		for (var i = 0; i < results.length; i++) { 
+           var object = results[i];
+               (function($) {
+				   intList.push(object);
+				   //alert(object.id);
+               })(jQuery);
+       }
+	   initMap();
+    },
+    error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
 	
 	
 	function initMap() {

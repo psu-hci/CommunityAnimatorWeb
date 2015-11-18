@@ -2,9 +2,10 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Community Animator</title>
+  <title>User List</title>
   <meta name="description" content="Community Animator">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
 	    <style type="text/css">
@@ -33,193 +34,125 @@
     <div class="nav-wrapper white">
       <a href="main.html" class="brand-logo"><img src = "images/logo.jpg"></img></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-		<li class = "active"><a href="main.html"><font color="orange"><b>Home</b></font></a></li>
+		<li><a href="main.html"><font color="orange">Home</font></a></li>
 		<li><a href="usermap.html"><font color="orange">User Map</font></a></li>
+		<li class = "active"><a href="userlist.html"><font color="orange"><b>User List</b></font></a></li>
 		<li><a href="map.html"><font color="orange">Update Location</font></a></li>
 		<li><a href="index.html"><font color="orange">Log Out</font></a></li>
       </ul>
     </div>
   </nav>
-  <div id="main">
-	<div id = 'welcome'></div>
-
-		  <div class="row">
-        <div class="col s2 offset-s2">
-          <a href = "usermap.html"><div class="card small">
-            <div class="card-image">
-              <img src="images/map.png">
-              <span class="card-title">View User Map</span>
-            </div></a>
-            <div class="card-content">
-              <p>View all current users and their status on a map.</p>
-            </div>
-			<div class="card-action">
-              <center><a href="usermap.html">Click to view...</a></center>
-            </div>
-          </div>
-        </div>
-		
-		<div class="col s2">
-          <a href="#users" onclick="displayUsers()"><div class="card small">
-            <div class="card-image">
-              <img src="images/map3.png">
-              <span class="card-title">View User List</span>
-            </div></a>
-            <div class="card-content">
-              <p>View all current users in a list.</p>
-            </div> 
-			<div class="card-action">
-              <center><a href="#users" onclick="displayUsers()">Click to view...</a></center>
-            </div>			
-          </div>
-        </div>
-		
-		<div class="col s2">
-          <a href = "map.html"><div class="card small">
-            <div class="card-image">
-              <img src="images/map2.png">
-              <span class="card-title">Update Location</span>
-            </div></a>
-            <div class="card-content">
-              <p>Update your current location if it has changed since your last login.</p>
-            </div>
-			<div class="card-action">
-              <center><a href="map.html">Click to update...</a></center>
-            </div>
-          </div>
-        </div>
-		
-
-		
-		<div class="col s2">
-          <div class="card small">
-            <div class="card-image">
-              <img src="images/map4.png">
-              <span class="card-title">Update Status<span>
-            </div>
-            <div class="card-content">
-			  
-              <p>Toggle yourself busy or animated.</p>
-			  		<!-- Switch -->
-					<br/><br/>
-		 
-		  </div>
-		  	<div class="card-action">
-               <center><div id = "switch0" class="switch">
-			<label>
-			  Busy
-			  <input id = "switch1" type="checkbox" onclick="updateStatus()">
-			  <span class="lever"></span>
-			  Animated
-			</label>
-		  </div></center>
-            </div>
-            </div> 	
-          </div>
-          </div>
-        </div>
-      </div>
-		
-      </div>
-	  
-	  
-		  
-			<div class = "row">
-
-		  
-	
-	<div class = "row">
-		<div class = "col s3">&nbsp</div>
-		<div class = "col s6">
-		<div id = 'users'><center><div id = "users"></div></center></div><br/>
-		</div>
-	</div>
-	
-	<div class = "row">
-		<div class = "col s4">&nbsp</div>
-		<div class = "col s4">
-		<div id = 'interests'><center><a href = "https://pennstate.qualtrics.com/SE/?SID=SV_2uB9GnuLPdN9viB" target = "_blank">Click here</a> to take our survey and help up improve Community Animator!</center></div>
-		</div>
-	</div>
   
-  <script type="text/javascript">
-    Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
-    var tbl = "<br/><center><table class = 'striped'><th><center>Icon<center></th><th><center>Username</center></th><th><center>Status</center></th>";
-	var intTbl = "<br/><center><table border = 1 class = 'striped'><th>Interests</th>"
-	
-	Parse.User.current().fetch().then(function (user) {
-    document.getElementById("welcome").innerHTML = "<center><h2>Welcome " + user.get('username') + "!</h2></center>";
-	
-	//alert(Parse.User.current().get('status'));
-	if(Parse.User.current().get('status') === false)
-		{
-		//alert("it works/false");
-		document.getElementById('switch1').checked = false;
-		}
-		else
-		{
-		//alert("it works/true");
-		document.getElementById('switch1').checked = true;		
-		}
-	
-	
-	var q2 = new Parse.Query(Parse.User);
-	q2.find({success:function(items){
-	
-	$.each(items,function(i,item){
-		var obj = JSON.parse(JSON.stringify(item));
-		var anim  = "Busy";
-		if(obj.status === true)
-		{
-		 anim = "Animated";
-		}
-		tbl += "<tr><td><center><img src = 'images/user.png' width = '50' height = '50'/></center></td><td><center>" + obj.username + "</center></td><td><center> " + anim + " </center></td></tr>";
-		//alert(obj.username);
-		});
-	}});
-	
-	var q3 = new Parse.Query(Parse.Object.extend("Interest"));
-	q3.find({success:function(items){
-	
-	$.each(items,function(i,item){
-		var obj = JSON.parse(JSON.stringify(item));
-		intTbl += "<tr><td> " + obj.interestName + " </td></tr>";
-		//alert(obj.username);
-		});
-	}});
-	});
-	
-	function displayUsers()
-	{
-		tbl = tbl + "</table></center>";
-		//alert(tbl);
-		document.getElementById("users").innerHTML = tbl;
-	}
-	
-	function displayInterests()
-	{
-		intTbl = intTbl + "</table></center>";
-		//alert(tbl);
-		document.getElementById("interests").innerHTML = intTbl;
-	}
-	
-	function updateStatus()
-	{
-		if(Parse.User.current().get('status') === false)
-		{
-		var currentUser = Parse.User.current();
-		currentUser.set('status', true);
-		return currentUser.save();
-		}
-		else
-		{
-		var currentUser = Parse.User.current();
-		currentUser.set('status', false);
-		return currentUser.save();
-		}
-		
-	}
-  </script>
+  <center><h2>User List</h2></center>
+  
+  <div id="main">
+  <div class = "row">
+		<div class="col s6 offset-s3">
+			<table id="results-table" class="tablesorter">
+			<thead>
+				<tr>
+					<th><a href = #><font color = "black">User Name</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
+					<th><a href = #><font color = "black">Status</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
+					<th><a href = #><font color = "black">Occupation</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
+					<th><a href = #><font color = "black">Interests</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+		</div>
+  </div>
+ 
 </body>
+  <script type="text/javascript" src="js/jquery-latest.js"></script> 
+  <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+<script>
+
+Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
+
+var intList = [];
+var interest = Parse.Object.extend("Interest");
+var query2 = new Parse.Query(interest);
+query2.find({
+    success: function(results) {
+       for (var i = 0; i < results.length; i++) { 
+           var object = results[i];
+               (function($) {
+				   intList.push(object);
+				   //alert(object.id);
+               })(jQuery);
+       }
+	   userQuery();
+    },
+    error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
+
+function userQuery()
+{
+var user = Parse.Object.extend("User");
+var query = new Parse.Query(user);
+query.ascending("username");
+query.find({
+    success: function(results) {
+	   //alert(intList.length);
+       for (var i = 0; i < results.length; i++) { 
+			var object = results[i];
+		   	var interestNames = [];
+			for(var j = 0; j < intList.length; j++)
+			{
+				//alert(j);
+				//alert(intList[j].id + ": " + object.get('interestList'));
+				for(var k = 0; k < object.get('interestList').length; k++)
+				{
+					//alert(k);
+					if(intList[j].id === object.get('interestList')[k])
+					{
+					interestNames.push(intList[j].get('interestName'));
+					//alert(intList[j].get('interestName'));
+					}
+				}
+			}
+			var interestString = "<ul>";
+			
+			for(var g = 1; g < interestNames.length; g++)
+			{
+				interestString += "<li>" + interestNames[g] + "</li>";
+				//interestString += "<br/>"
+			}
+			if(interestNames.length === 0)
+			{
+				interestString = "No interests selected";
+			}
+			var status = "Animated";
+			if(object.get('status') === false)
+			{
+				status = "Busy";
+			}
+               (function($) {
+                   $('#results-table').append('<tr><td>' + object.get('username') + '</td><td>' + status + "</td><td>" + object.get('occupation') + '</td>' + '<td>' + interestString + '</ul></td></tr>');
+               })(jQuery);
+       }
+	   sorter();
+	   
+    },
+    error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
+}
+
+function sorter()
+{
+$(document).ready(function() 
+    { 
+        $("#results-table").tablesorter(); 
+    } 
+); 
+
+}
+</script>
+
 
 </html>
