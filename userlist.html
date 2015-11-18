@@ -59,6 +59,7 @@
 					<th><a href = #><font color = "black">Status</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
 					<th><a href = #><font color = "black">Occupation</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
 					<th><a href = #><font color = "black">Interests</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
+					<th><a href = #><font color = "black">Last Active</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
 				</tr>
 			</thead>
 			</table>
@@ -141,6 +142,10 @@ query.find({
 			}
 			var interestString = "<ul>";
 			
+			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			var date = new Date(object.get('updatedAt'));
+			var time = formatAMPM(new Date(object.get('updatedAt')));
+			var dateString = " " + time + "<br/>" + (monthNames[date.getMonth()]) + ' '+date.getDate() + ", " + date.getFullYear() + "";//prints expected format.
 			for(var g = 1; g < interestNames.length; g++)
 			{
 				interestString += "<li>" + interestNames[g] + "</li>";
@@ -155,9 +160,11 @@ query.find({
 			{
 				status = "Busy";
 			}
+			else{
                (function($) {
-                   $('#results-table').append('<tr><td>' + object.get('username') + '</td><td>' + status + "</td><td>" + object.get('occupation') + '</td>' + '<td>' + interestString + '</ul></td></tr>');
+                   $('#results-table').append('<tr><td>' + object.get('username') + '</td><td>' + status + "</td><td>" + object.get('occupation') + '</td>' + '<td>' + interestString + '</ul></td><td>' + dateString + '</td></tr>');
                })(jQuery);
+			}
        }
 	   $('#results-table').append("</tbody>");
 	   sorter();
@@ -177,6 +184,17 @@ $(document).ready(function()
     } 
 ); 
 
+}
+
+function formatAMPM(date) {
+  var hours = date.getUTCHours() - 5;
+  var minutes = date.getUTCMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }
 </script>
 

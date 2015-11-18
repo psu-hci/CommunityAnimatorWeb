@@ -109,13 +109,18 @@
 		}
 		else
 		{
-		addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList);
+		if(obj.status === false)
+		{
+		}
+		else{
+		addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList, obj.updatedAt);
+		}
 		}
 		});
 	}});
 	
 	  // Adds a marker to the map and push to the array.
-	function addOldMarker(location, username, status, occupation, email, interestList) {
+	function addOldMarker(location, username, status, occupation, email, interestList, updatedAt) {
 	  var marker = new google.maps.Marker({
 		position: location,
 		map: map,
@@ -129,12 +134,20 @@
 	  stat = "Busy";
 	  }
 	  
+	  
+	  var monthNames = ["January", "February", "March", "April", "May", "June",
+		  "July", "August", "September", "October", "November", "December"
+	  ];
+	  date = new Date(updatedAt);
+	  var time = formatAMPM(new Date(updatedAt));
+	  var dateString = " " + time + ", <i>" + (monthNames[date.getMonth()]) + ' '+date.getDate() + ", " + date.getFullYear() + "</i>";//prints expected format.
+	  
 	  var contentString = '<div>'+
       '<div>'+
       '</div>'+
       '<div	>'+
       '<p><b><h6>' + username + '</h6></b><hr/>'+
-	  '<ul><li>' + stat + 
+	  '<ul><li><b>Last Active:</b>' + dateString + "</li><li>" + stat + 
 	  '</li><li>' + occupation + 
 	  '</li><li>' + email + 
       '</li></ul></div>'+
@@ -219,6 +232,18 @@
   longitude = latLng.lng();
   map.panTo(latLng);
 }
+
+function formatAMPM(date) {
+  var hours = date.getUTCHours() - 5;
+  var minutes = date.getUTCMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
 }
     </script>
 	
