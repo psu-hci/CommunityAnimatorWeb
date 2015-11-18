@@ -6,6 +6,8 @@
       html, body { height: 100%; margin: 0; padding: 0; }
       #map { height: 100%; width: 100%}
     </style>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 	   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
@@ -80,7 +82,7 @@
 		map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 40.799361, lng: -77.862548},
 		zoom: 16,
-		mapTypeId: google.maps.MapTypeId.HYBRID
+		//mapTypeId: google.maps.MapTypeId.HYBRID
 	});
   
 		Parse.User.current().fetch().then(function (user) {
@@ -127,15 +129,15 @@
 	  stat = "Busy";
 	  }
 	  
-	  var contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
+	  var contentString = '<div>'+
+      '<div>'+
       '</div>'+
-      '<div id="bodyContent">'+
-      '<p><b>' + username + '</b><br/>'+
-	  '• ' + stat + 
-	  '<br/>• ' + occupation + 
-	  '<br/>• ' + email + 
-      '</div>'+
+      '<div	>'+
+      '<p><b><h6>' + username + '</h6></b><hr/>'+
+	  '<ul><li>' + stat + 
+	  '</li><li>' + occupation + 
+	  '</li><li>' + email + 
+      '</li></ul></div>'+
       '</div>';
 
   var infowindow = new google.maps.InfoWindow({
@@ -172,7 +174,7 @@
       '</div>'+
       '<div id="bodyContent">'+
       '<p><b>' + 'My Location'+ '</b>' + 
-	  '<br/>• ' + stat + 
+	  '<hr/>' + stat + 
       '</div>'+
       '</div>';
 

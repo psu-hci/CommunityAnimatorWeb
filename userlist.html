@@ -5,6 +5,8 @@
   <title>User List</title>
   <meta name="description" content="Community Animator">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
   
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
@@ -48,6 +50,8 @@
   <div id="main">
   <div class = "row">
 		<div class="col s6 offset-s3">
+			<input type="text" id="search" placeholder="Type to search..." />
+			
 			<table id="results-table" class="tablesorter">
 			<thead>
 				<tr>
@@ -57,8 +61,6 @@
 					<th><a href = #><font color = "black">Interests</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
 				</tr>
 			</thead>
-			<tbody>
-			</tbody>
 			</table>
 		</div>
   </div>
@@ -83,11 +85,33 @@ query2.find({
                })(jQuery);
        }
 	   userQuery();
+	   search();
     },
     error: function(error) {
         alert("Error: " + error.code + " " + error.message);
     }
 });
+
+
+    function search() 
+{	
+    // Write on keyup event of keyword input element
+    $("#search").keyup(function(){
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#results-table tbody").find("tr"), function() {
+            console.log($(this).text());
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) == -1)
+			{
+               $(this).fadeOut();
+			   //$(this).hide();
+			}
+            else{
+                 $(this).show();  }              
+        });
+    }); 
+	}
+
 
 function userQuery()
 {
@@ -97,6 +121,7 @@ query.ascending("username");
 query.find({
     success: function(results) {
 	   //alert(intList.length);
+	   $('#results-table').append("<tbody>");
        for (var i = 0; i < results.length; i++) { 
 			var object = results[i];
 		   	var interestNames = [];
@@ -134,6 +159,7 @@ query.find({
                    $('#results-table').append('<tr><td>' + object.get('username') + '</td><td>' + status + "</td><td>" + object.get('occupation') + '</td>' + '<td>' + interestString + '</ul></td></tr>');
                })(jQuery);
        }
+	   $('#results-table').append("</tbody>");
 	   sorter();
 	   
     },
