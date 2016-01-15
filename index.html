@@ -1,15 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-
   <title>Community Animator</title>
   <meta name="description" content="Community Animator">
-  <meta name="viewport" content="width=device-width">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+  <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
@@ -32,120 +33,66 @@
     <div class="nav-wrapper white">
       <a href="#" class="brand-logo">&nbsp<img src = "images/logo.jpg"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="newuser.html">Create Account</a></li>
-        <li><a href="login.html">Log In</a></li>
+        <li><a href="newuser.html"><font color="orange">Create Account</font></a></li>
+        <li><a href="login.html"><font color="orange">Log In</font></a></li>
       </ul>
     </div>
   </nav>
   
-  <div id="main">
-  <center>
-  <br/>
-  <h2>Welcome to Community Animator!</h2>
-  <br/>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <center><img src = "images/logo2.jpg"></center>
+      <div class="row center">
+        <h5 class="header col s12 light">An application which uses technology to host introductions among members of a local community with similar interests.</h5>
+      </div>
       <div class="row">
-	  <div class="col s12 m5">
-		<a href="login.html">
-		&nbsp
-		</a>
-      </div>
-      <div class="col s12 m2">
-		<a href="login.html">
-        <div class="card-panel orange">
-          <span class="white-text"><b>Log In</b>
-          </span>
+         <div class="col s12">
+           <div class="center-align">
+              <a href="login.html" class="btn btn-large waves-effect waves-light orange ">Login >></a>
+        
+              <a href="newuser.html" class="btn btn-large  light-green white-text">Create an account</a>
+           </div>
+         </div>
+      </div>     
+      <br><br>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center orange-text"><i class="medium material-icons">group</i></h2>
+            <h5 class="center">What is Community Animator?</h5>
+
+            <p class="light">Community Animator aims to provide a way for people to meet up, and also to study how people interact.  It is currently being developed by <a href = "https://hci.ist.psu.edu/" target = "_blank">The Center for Human-Computer Interaction at Penn State</a> along with a <a href = "http://personal.psu.edu/tjf5285/ist413" target = "_blank">team from IST 413: Usability Engineering</a>.</p>
+          </div>
         </div>
-		</a>
-      </div>
-    </div>
-		  <div class="row">
-			<div class="col s12 m5">
-				<a href="login.html">
-				&nbsp
-				</a>
-			</div>
-	  <div class="col s12 m2">
-	   <a href = "newuser.html">
-        <div class="card-panel orange">
-          <span class="white-text"><b>Create Account</b>
-          </span>
+
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center orange-text"><i class="medium material-icons">live_help</i></h2>
+            <h5 class="center">How do I use Community Animator?</h5>
+
+            <p class="light">By following these steps:</p>
+            <ul>
+	        <li><b>Step 1:</b> Create an account</li>
+	        <li><b>Step 2:</b> Create a profile that lists your interest areas</li>
+	        <li><b>Step 3:</b> Look for others nearby with similar interests</li>
+            <li><b>Step 4:</b> Connect with others near you with the same interests</li>
+          </div>
         </div>
-		</a>
-      </div>
-	  </div>	
-	  <div class="row">
-			<div class="col s12 m5">
-				<a href="login.html">
-				&nbsp
-				</a>
-			</div>
-				  <div class="col s12 m2">
-					<a class="modal-trigger" href = "#modal1">
-						<div class="card-panel light-green">
-							<span class="white-text"><b>What is Community Animator?</b></span>
-						</div>
-					</a>
-				</div>
-	  </div>
-	  
-	  <div class="row">
-			<div class="col s12 m5">
-				<a href="login.html">
-				&nbsp
-				</a>
-			</div>
-				  <div class="col s12 m2">
-					<a class="modal-trigger" href = "#modal2">
-						<div class="card-panel light-green">
-							<span class="white-text"><b>How do I use Community Animator?</b></span>
-						</div>
-					</a>
-				</div>
-	  </div>	
-	  
-	    <!-- Modal Structure -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>What is Community Animator?</h4>
-      <p>Community Animator is an application which uses technology to host introductions among members of a local community with similar interests. The application aims to provide a way for people to meet up, and also to study how people interact.  It is currently being developed by <a href = "https://hci.ist.psu.edu/" target = "_blank">The Center for Human-Computer Interaction at Penn State</a> along with a <a href = "http://personal.psu.edu/tjf5285/ist413" target = "_blank">team from IST 413: Usability Engineering</a>.</p>
-	  <img src = "images/logo2.jpg"/><img src = "images/psu.jpg"/>
-    </div>
-    <div class="modal-footer">
-      <a href="#" class=" modal-action modal-close waves-effect waves-orange btn-flat">Dismiss</a>
-	  <a href="http://personal.psu.edu/tjf5285/ist413"  target = "_blank" class=" modal-action modal-close waves-effect waves-orange btn-flat"><u>IST 413 Team</u></a>
-	  <a href="https://hci.ist.psu.edu/" target = "_blank" class=" modal-action modal-close waves-effect waves-orange btn-flat"><u>Center for HCI</u></a>
-	  
-	  
+
+    <div class="section">
+
     </div>
   </div>
-  
-    <!-- Modal Structure -->
-  <div id="modal2" class="modal">
-    <div class="modal-content">
-      <h4>How Do I Use Community Animator?</h4>
-	  <img src = "images/logo2.jpg"/>
-      <ul>
-	  <li><b>Step 1:</b> Create an account</li>
-	  <li><b>Step 2:</b> Create a profile that lists your interest areas</li>
-	  <li><b>Step 3:</b> Look for others nearby with similar interests</li>
-      <li><b>Step 4:</b> Connect with others near you with the same interests</li>
-	  
-	  
-    </div>
-    <div class="modal-footer">
-      <a href="#" class=" modal-action modal-close waves-effect waves-orange btn-flat">Dismiss</a>
-	  <a href="newuser.html" class=" modal-action modal-close waves-effect waves-orange btn-flat"><u>Get Started</u></a>
-    </div>
-  </div>
-  
-  </center>
-  </div>
-  
-  <script type="text/javascript">
-  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  });
+
           
 </script>
 </body>
