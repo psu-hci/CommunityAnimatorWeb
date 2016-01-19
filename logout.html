@@ -7,12 +7,13 @@
     </style>
   <title>Log Out?</title>
   <meta name="description" content="Community Animator">
-  <meta name="viewport" content="width=device-width">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+ <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
@@ -45,10 +46,12 @@
   </nav>
   
   <div id="main">
+  <div class="container">
     <h1><center>Log Out?</center></h1>
 	<p><center><b>Reminder:</b> If you're not going to be around for a while please <a href = "main.html">mark yourself as busy!</a></center></p>
 	<br/>	  
 	<center><button data-target="modal1" class="waves-effect waves-light red btn modal-trigger">Click here to log Out</button></center>
+  </div>
   </div>
   
 
@@ -66,39 +69,7 @@
   </div>
           
   
-  <script type="text/javascript">
-    Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
-
-	 $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  });
-	
-	
-	function logOut(username, password)
-	{
-		Parse.User.logOut();
-		window.location="index.html";
-	}
-	
-	function updateStatus()
-	{
-		if(Parse.User.current().get('status') === false)
-		{
-		var currentUser = Parse.User.current();
-		currentUser.set('status', true);
-		return currentUser.save();
-		}
-		else
-		{
-		var currentUser = Parse.User.current();
-		currentUser.set('status', false);
-		return currentUser.save();
-		}
-		
-	}
-
-  </script>
+ <script type="text/javascript" src="js/logout.js"></script>
 </body>
 
 </html>
