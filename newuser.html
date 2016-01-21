@@ -187,7 +187,7 @@ ga('send', 'pageview');
             </div>
 
             <div class="col s12">
-                <center><i>Click map</i> to select location</center>
+                <center>Your location:</center>
                 <br/>
                 <br/>
             </div>
@@ -208,11 +208,12 @@ ga('send', 'pageview');
         </div>
     </div>
 
-    <script type="text/javascript" src="js/newuser.js"></script>
+    <script type="text/javascript" src="js/geonewuser.js"></script>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxXnaSGoxzaQvVUDkFxZe9mimQDNUumlc&signed_in=true&callback=initMap"
+        async defer>
+    </script> 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCOtpN56Gw40PafvxzDl_mmHQZ8ARyeoA&callback=initMap"
-            async defer></script>
 </body>
 
 </html>
