@@ -1,7 +1,27 @@
+$('#modal1').openModal({
+          dismissible: false, // Modal can be dismissed by clicking outside of the modal
+          opacity: .5, // Opacity of modal background
+          in_duration: 300, // Transition in duration
+          out_duration: 200
+});
+
+$( document ).ready(function() {
+   $("#submit").bind('click', function() { createUser(document.getElementById('username').value, document.getElementById('password').value, 
+   document.getElementById('email').value, document.getElementById('gender').value, document.getElementById('datebirth').value, document.getElementById('occupation').value) }) 
+});
+
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
-    selectYears: 100 // Creates a dropdown of 15 years to control year		
+    selectYears: 15 // Creates a dropdown of 15 years to control year		
 });
+
+$( document ).ready(function() {
+   $("#btndisagree").on('click', function() {
+        window.location="index.html";
+    }); 
+});
+
+
 
 var interestList = [];
 Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
@@ -32,12 +52,11 @@ function createUser(username, password, email, gender, datebirth, occupation)
         success: function(user) {
             Materialize.toast("Account created successfully!", 4000) // 4000 is the duration of the toast
                 login(username, password);
-            //window.location="login.html";
+           
         },
         error: function(user, error) {
             // Show the error message somewhere and let the user try again.
             Materialize.toast("Error: " + error.message, 4000) // 4000 is the duration of the toast
-                //alert("Error: " + error.code + " " + error.message);
         }
     });
 }
@@ -156,8 +175,10 @@ function initMap() {
   });
 
   var marker = new google.maps.Marker({map: map});
+  
   marker.addListener('click', function() {
          infowindow.open(map, marker);
+         
        });
   
   // Try HTML5 geolocation.
@@ -172,8 +193,8 @@ function initMap() {
       marker.setPosition(pos);
       map.setCenter(pos);
       
-      latitude = pos.lat();	
-      longitude = pos.lng();
+      latitude = position.coords.latitude;	
+      longitude = position.coords.longitude;
       
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -190,5 +211,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                         'Error: The Geolocation service failed.' :
                         'Error: Your browser doesn\'t support geolocation.');
 }
+
+
 
 

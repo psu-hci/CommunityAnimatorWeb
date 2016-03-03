@@ -8,9 +8,11 @@
   <title>Community Animator</title>
   <meta name="description" content="Community Animator">
   <meta name="viewport" content="width=device-width">
+  <meta http-equiv="Cache-control" content="no-cache">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="font/material-design-icons/material-icons.css" rel="stylesheet" />
+ <!-- <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
   <!--Let browser know website is optimized for mobile-->
@@ -29,9 +31,9 @@
   ga('send', 'pageview');
 
 </script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
-  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+  <script type="text/javascript" src="https://www.parsecdn.com/js/parse-latest.js"></script>
   
   
     <nav>
@@ -66,9 +68,23 @@
 	<br/>
 	
 	<center>
-	<a class="waves-effect waves-light btn orange lighten-2" id = "submitLogin" value="Submit" onclick="login(document.getElementById('username').value, document.getElementById('password').value)">Submit</a>
-	</center>
-	 
+	    <a class="waves-effect waves-light btn orange modal-trigger" href="#modal1">Forgot Password</a>
+		<a class="waves-effect waves-light btn light-green white-text" id = "submitLogin" value="Submit">Log In</a>
+	</center>	 
+  </div>
+  </div>
+  
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Input your Email</h4>
+       <div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email">Email</label>
+        </div>       
+    <div class="modal-footer">
+      <a id="sendemail" href="#!" class=" modal-action waves-effect waves-green btn-flat">Send</a>
+    </div>
   </div>
   </div>
   

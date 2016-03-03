@@ -1,74 +1,81 @@
-  	Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
+$( document ).ready(function() {
+    $("#openchat").on('click', function() { openWindow("chat.html",1024,768,this.blur(),false)});
+});
+
+Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
 	
-	var map;
-	var markers = [];
-	var latitude;
-	var longitude;
-	var currentUsername;
+var map;
+var markers = [];
+var latitude;
+var longitude;
+var currentUsername;
 	
-	var intList = [];
-	var interest = Parse.Object.extend("Interest");
-	var query2 = new Parse.Query(interest);
-	query2.find({
-		success: function(results) {
-		for (var i = 0; i < results.length; i++) { 
-           var object = results[i];
-               (function($) {
-				   intList.push(object);
+	
+var intList = [];
+var interest = Parse.Object.extend("Interest");
+var query2 = new Parse.Query(interest);
+query2.find({
+	success: function(results) {
+	for (var i = 0; i < results.length; i++) { 
+        var object = results[i];
+            (function($) {
+				 intList.push(object);
 				   //alert(object.id);
-               })(jQuery);
-       }
-	   initMap();
-    },
-    error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
+            })(jQuery);
     }
+	initMap();
+    },
+error: function(error) {
+     alert("Error: " + error.code + " " + error.message);
+}
 });
 	
 	
-	function initMap() {
-		map = new google.maps.Map(document.getElementById('map'), {
+function initMap() {
+	
+	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 40.799361, lng: -77.862548},
-		zoom: 16,
-		//mapTypeId: google.maps.MapTypeId.HYBRID
-	});
-  
-		Parse.User.current().fetch().then(function (user) {
-		currentUsername = user.get('username');
-		latitude = user.get('location').latitude;
-		longitude= user.get('location').longitude;
-		map.panTo({lat: latitude, lng: longitude});
-		addUserMarker({lat: latitude, lng: longitude}, user.get('username'), user.get('status'), user.get('occupation'));
-		});
+		zoom: 16
 		
-		var q2 = new Parse.Query(Parse.User);
-		q2.find({success:function(items){
-		$.each(items,function(i,item){
-		var obj = JSON.parse(JSON.stringify(item));
-		try{
+	}); 
+
+Parse.User.current().fetch().then(function (user) {
+currentUsername = user.get('username');
+latitude = user.get('location').latitude;
+longitude= user.get('location').longitude;
+map.panTo({lat: latitude, lng: longitude});
+	addUserMarker({lat: latitude, lng: longitude}, user.get('username'), user.get('status'), user.get('occupation'));
+});
+		
+var q2 = new Parse.Query(Parse.User);
+q2.find({success:function(items){
+$.each(items,function(i,item){
+var obj = JSON.parse(JSON.stringify(item));
+   try{
 		latitude = obj.location.latitude;
 		longitude= obj.location.longitude;
-		}
-		catch(err)
-		{
-		}
-		if(obj.username === currentUsername)
-		{
-		}
-		else
-		{
+	}
+	catch(err)
+	{
+	}
+	if(obj.username === currentUsername)
+	{
+	}
+	else
+	{
 		if(obj.status === false)
-		{
+     	{
 		}
-		else{
-		addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList, obj.updatedAt);
+	    else{
+		   addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList, obj.updatedAt);
 		}
-		}
-		});
-	}});
+	}
+});
+}});
+}
 	
-	  // Adds a marker to the map and push to the array.
-	function addOldMarker(location, username, status, occupation, email, interestList, updatedAt) {
+// Adds a marker to the map and push to the array.
+function addOldMarker(location, username, status, occupation, email, interestList, updatedAt) {
 	  var marker = new google.maps.Marker({
 		position: location,
 		map: map,
@@ -76,6 +83,7 @@
 		icon: 'http://maps.google.com/mapfiles/ms/micons/red-dot.png',
 		title: username
 	  });
+	  
 	  var stat = "Animated";
 	  if(status === false)
 	  {
@@ -101,22 +109,22 @@
       '</li></ul></div>'+
       '</div>';
 
-  var infowindow = new google.maps.InfoWindow({
+var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 	  
-	marker.addListener('click', function() {
+marker.addListener('click', function() {
     infowindow.open(map, marker);
-	});
+  });
 	  
-	  markers.push(marker);
-	}
+  markers.push(marker);
+}
 	
-		function addUserMarker(location, username, status, occupation) {
+function addUserMarker(location, username, status, occupation) {
 		
-		var image = 'images/me.png';
+	var image = 'images/me.png';
 		
-	  var marker = new google.maps.Marker({
+	var marker = new google.maps.Marker({
 		position: location,
 		map: map,
 		icon: 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png',
@@ -139,41 +147,41 @@
       '</div>'+
       '</div>';
 
-  var infowindow = new google.maps.InfoWindow({
+var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 	  
-	marker.addListener('click', function() {
+marker.addListener('click', function() {
     infowindow.open(map, marker);
-	});
+});
 	  
-	  markers.push(marker);
-	}
+	 markers.push(marker);
+}
 
 	// Sets the map on all markers in the array.
-	function setMapOnAll(map) {
+function setMapOnAll(map) {
 	  for (var i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
 	  }
-	}
+}
 
-	// Removes the markers from the map, but keeps them in the array.
-	function clearMarkers() {
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
 	  setMapOnAll(null);
-	}
+}
 
-	// Shows any markers currently in the array.
-	function showMarkers() {
+// Shows any markers currently in the array.
+function showMarkers() {
 	  setMapOnAll(map);
-	}
+}
 
-	// Deletes all markers in the array by removing references to them.
-	function deleteMarkers() {
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
 	  clearMarkers();
 	  markers = [];
-	}
+}
   
-  function placeMarkerAndPanTo(latLng, map) {
+function placeMarkerAndPanTo(latLng, map) {
   deleteMarkers();
   addMarker(latLng);
   latitude = latLng.lat();	
@@ -198,5 +206,17 @@ function formatAMPM(date) {
   return strTime;
 }
 
+function openWindow(url,width,height,options,name) {
+			width = width ? width : 800;
+			height = height ? height : 600;
+			options = options ? options : 'resizable=yes';
+			name = name ? name : 'openWindow';
+			window.open(
+				url,
+				name,
+				'screenX='+(screen.width-width)/2+',screenY='+(screen.height-height)/2+',width='+width+',height='+height+','+options
+			)
 }
+
+
     
