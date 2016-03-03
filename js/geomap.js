@@ -10,18 +10,16 @@ function initMap() {
   });
   
   //save parse
-  
-  //var infoWindow = new google.maps.InfoWindow({map: map});
-
   var contentString = 'You are HERE!';
   
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
+ var infowindow = new google.maps.InfoWindow({
+   content: contentString
   });
 
   var marker = new google.maps.Marker({map: map});
   marker.addListener('click', function() {
          infowindow.open(map, marker);
+          //register_popup('jomara', 'JOmara');
        });
   
   // Try HTML5 geolocation.

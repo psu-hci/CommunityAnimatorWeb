@@ -69,7 +69,7 @@ p { margin: 0; }
 }
 
 #live-chat header {
-	background: #ef6c00;
+	background: #293239;
 	border-radius: 5px 5px 0 0;
 	color: #fff;
 	cursor: pointer;
@@ -124,7 +124,7 @@ p { margin: 0; }
 }
 
 .chat-close {
-	background: #616161;
+	background: #1b2126;
 	border-radius: 50%;
 	color: #fff;
 	display: block;
