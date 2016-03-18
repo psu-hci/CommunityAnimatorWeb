@@ -22,7 +22,8 @@ $( document ).ready(function() {
 });
 
 
-
+var latitude;
+var longitude;
 var interestList = [];
 Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
 
@@ -34,7 +35,7 @@ function createUser(username, password, email, gender, datebirth, occupation)
     user.set("password", password);
     user.set("email", email);
     user.set("gender", gender)
-        user.set("dateBirth", datebirth);
+    user.set("dateBirth", datebirth);
     user.set("distance", 0);
     user.set("occupation", occupation);
     user.set("chatting", false);
@@ -43,7 +44,7 @@ function createUser(username, password, email, gender, datebirth, occupation)
     user.set("status", true);	
     user.set("view", true);
     user.set("taskList", ["HJQNYCjCVh","V3EMgSnf5n","m5VJwIOHGO"])
-        user.set("interestList", interestList);
+    user.set("interestList", interestList);
     user.set("location", new Parse.GeoPoint({latitude: latitude, longitude: longitude}));
 
     sessionStorage.user = username;
@@ -154,12 +155,8 @@ function createInterestList()
     {
         interestList.push("nDvaQM1G1Q");
     }
-    //alert(interestList);
 
 }
-
-var latitude;
-var longitude;
 
 
 function initMap() {
@@ -197,11 +194,11 @@ function initMap() {
       longitude = position.coords.longitude;
       
     }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
+      handleLocationError(true, infowindow, map.getCenter());
     });
   } else {
     // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+    handleLocationError(false, infowindow, map.getCenter());
   }
 }
 

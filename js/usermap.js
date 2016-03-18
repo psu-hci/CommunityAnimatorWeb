@@ -5,11 +5,13 @@ $( document ).ready(function() {
 Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
 	
 var map;
+var circle;
 var markers = [];
 var latitude;
 var longitude;
 var currentUsername;
-	
+var softSlider = document.getElementById('softs');
+var maxDistance;	
 	
 var intList = [];
 var interest = Parse.Object.extend("Interest");
@@ -20,62 +22,100 @@ query2.find({
         var object = results[i];
             (function($) {
 				 intList.push(object);
-				   //alert(object.id);
             })(jQuery);
     }
-	initMap();
+	  initMap();
     },
-error: function(error) {
+   error: function(error) {
      alert("Error: " + error.code + " " + error.message);
-}
+   }
 });
 	
 	
 function initMap() {
 	
-	map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 40.799361, lng: -77.862548},
 		zoom: 16
-		
-	}); 
+  }); 
 
-Parse.User.current().fetch().then(function (user) {
-currentUsername = user.get('username');
-latitude = user.get('location').latitude;
-longitude= user.get('location').longitude;
-map.panTo({lat: latitude, lng: longitude});
+ circle = new google.maps.Circle({
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+    map: map,
+    radius: 500
+  });
+  
+  
+
+Parse.User.current().fetch().then(
+  function (user) {
+     currentUsername = user.get('username');
+     latitude = user.get('location').latitude;
+     longitude= user.get('location').longitude;
+     distance= user.get('distance');
+     userGeoPoint = user.get("location");
+
 	addUserMarker({lat: latitude, lng: longitude}, user.get('username'), user.get('status'), user.get('occupation'));
-});
+
+	switch (distance) {
+  		case 0:
+   			maxDistance = 50;
+   			break;
+  		case 1:
+   			maxDistance = 100;
+   			break;
+  		case 2:
+    		maxDistance = 250; 
+    		break;
+  		case 3:
+    		maxDistance = 500;
+    		break;
+  		default:
+     		break;
+	}	
 		
-var q2 = new Parse.Query(Parse.User);
-q2.find({success:function(items){
-$.each(items,function(i,item){
-var obj = JSON.parse(JSON.stringify(item));
-   try{
-		latitude = obj.location.latitude;
-		longitude= obj.location.longitude;
+	var q2 = new Parse.Query(Parse.User);
+	q2.withinMiles('location',userGeoPoint,maxDistance);
+	q2.find({
+    	success:function(items){
+    		$.each(items,function(i,item){
+    			var obj = JSON.parse(JSON.stringify(item));
+      				try{
+		  				latitude = obj.location.latitude;
+		  				longitude= obj.location.longitude;
+    				}
+	 				catch(err)
+	  				 {
+	    				}
+	 				if(obj.username === currentUsername)
+	   					{
+	   						}
+	 				else
+	 					{
+					if(obj.status === false)
+        				{
+		 				}
+	    			else{
+		   				addMatchesMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, 
+		   				obj.interestList, obj.updatedAt);
+					}
+	 		}
+	
 	}
-	catch(err)
-	{
-	}
-	if(obj.username === currentUsername)
-	{
-	}
-	else
-	{
-		if(obj.status === false)
-     	{
-		}
-	    else{
-		   addOldMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, obj.interestList, obj.updatedAt);
-		}
-	}
-});
-}});
-}
+     });
+    });
+
+	
+
+
 	
 // Adds a marker to the map and push to the array.
-function addOldMarker(location, username, status, occupation, email, interestList, updatedAt) {
+function addMatchesMarker(location, username, status, occupation, email, interestList, updatedAt) {
+	  
 	  var marker = new google.maps.Marker({
 		position: location,
 		map: map,
@@ -105,24 +145,21 @@ function addOldMarker(location, username, status, occupation, email, interestLis
       '<p><b><h6>' + username + '</h6></b><hr/>'+
 	  '<ul><li><b>Last Active:</b>' + dateString + "</li><li>" + stat + 
 	  '</li><li>' + occupation + 
-	  '</li><li>' + email + 
       '</li></ul></div>'+
       '</div>';
 
-var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
+     var infowindow = new google.maps.InfoWindow({
+       content: contentString
+     });
 	  
-marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+     marker.addListener('click', function() {
+        infowindow.open(map, marker);
+     });
 	  
-  markers.push(marker);
+      markers.push(marker);
 }
 	
 function addUserMarker(location, username, status, occupation) {
-		
-	var image = 'images/me.png';
 		
 	var marker = new google.maps.Marker({
 		position: location,
@@ -134,7 +171,7 @@ function addUserMarker(location, username, status, occupation) {
 	  var stat = "Animated";
 	  if(status === false)
 	  {
-	  stat = "Busy";
+	    stat = "Busy";
 	  }
 	  
 	  
@@ -147,15 +184,16 @@ function addUserMarker(location, username, status, occupation) {
       '</div>'+
       '</div>';
 
-var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
+     var infowindow = new google.maps.InfoWindow({
+          content: contentString
+     });
 	  
-marker.addListener('click', function() {
-    infowindow.open(map, marker);
-});
+     marker.addListener('click', function() {
+        infowindow.open(map, marker);
+     });
 	  
 	 markers.push(marker);
+	 circle.bindTo('center', marker, 'position');
 }
 
 	// Sets the map on all markers in the array.
@@ -188,7 +226,8 @@ function placeMarkerAndPanTo(latLng, map) {
   longitude = latLng.lng();
   map.panTo(latLng);
 }
-
+ 
+ 
 function formatAMPM(date) {
   var hours = date.getUTCHours() - 5;
   var minutes = date.getUTCMinutes();
@@ -217,6 +256,42 @@ function openWindow(url,width,height,options,name) {
 				'screenX='+(screen.width-width)/2+',screenY='+(screen.height-height)/2+',width='+width+',height='+height+','+options
 			)
 }
+
+var range_all_sliders = {
+	'min': [ 50 ],
+	'10%': [ 100 ],
+	'50%': [ 250 ],
+	'max': [ 500 ]
+};
+
+/*noUiSlider.create(softSlider, {
+	start: 0,
+	range: range_all_sliders,
+	pips: {
+		mode: 'positions',
+		values: [50,100, 250,500 ],
+		density: 4,
+		stepped: true
+	}
+});
+
+softSlider.noUiSlider.on('change', function ( values, handle ) {
+	if ( values[handle] < 20 ) {
+		softSlider.noUiSlider.set(20);
+	} else if ( values[handle] > 80 ) {
+		softSlider.noUiSlider.set(80);
+	}
+	updateRadius(circle, values);
+});
+
+*/
+
+function updateRadius(circle, rad){
+  circle.setRadius(rad);
+}
+
+
+
 
 
     
