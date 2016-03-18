@@ -2,6 +2,7 @@
 		$("#openchat").on('click', function() { openWindow("chat.html",1024,768,this.blur(),false)});
 	});
 
+
 	Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
 		
 	var map;
@@ -11,8 +12,11 @@
 	var longitude;
 	var currentUsername;
 	var softSlider = document.getElementById('soft');
-	var maxDistance;	
-		
+	var maxDistance;
+	var newRange = false;	
+	
+	
+	//verify interest list
 	var intList = [];
 	var interest = Parse.Object.extend("Interest");
 	var query2 = new Parse.Query(interest);
@@ -24,18 +28,18 @@
 					 intList.push(object);
 				})(jQuery);
 		}
-		  initMap();
+		  initMap(0);
 		},
 	   error: function(error) {
 		 alert("Error: " + error.code + " " + error.message);
 	   }
 	});
+	
 		
-		
-	function initMap() {
-		
-	  map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: 40.799361, lng: -77.862548},
+	function initMap(newDistance) {
+	
+	 map = new google.maps.Map(document.getElementById('map'), {
+			//center: {lat: 40.799361, lng: -77.862548},
 			zoom: 16
 	  }); 
 
@@ -46,73 +50,63 @@
 		fillColor: "#FF0000",
 		fillOpacity: 0.35,
 		map: map,
-		radius: 500
-	  });
-	  
-	  
+		radius: 50 // in meters
+	  });	
 
 	Parse.User.current().fetch().then(
 	  function (user) {
-		 currentUsername = user.get('username');
-		 latitude = user.get('location').latitude;
-		 longitude= user.get('location').longitude;
-		 distance= user.get('distance');
-		 userGeoPoint = user.get("location");
+		 currentUsername = user.get("username");
+		 latitude = user.get("location").latitude;
+		 longitude= user.get("location").longitude;
+		 
+		 if(newRange === false){
+		 	distance= user.get("distance");
+		 } else distance = newDistance;
 
-		addUserMarker({lat: latitude, lng: longitude}, user.get('username'), user.get('status'), user.get('occupation'));
+		 userGeoPoint = user.get("location");
+         
+		addUserMarker({lat: latitude, lng: longitude}, user.get("username"), user.get("status"), user.get("occupation"));
 
 		switch (distance) {
-			case 0:
-				maxDistance = 50;
+			case 0: //50 meters to km
+				maxDistance = 0.05;
 				break;
-			case 1:
-				maxDistance = 100;
+			case 1: //100 meters to km
+				maxDistance = 0.1;
 				break;
-			case 2:
-				maxDistance = 250; 
+			case 2: //250  meters to km
+				maxDistance = 0.25;
 				break;
-			case 3:
-				maxDistance = 350;
+			case 3: //350 meters to km
+				maxDistance = 0.35;
 				break;
-			case 4:
-				maxDistance = 500;
+			case 4: //500 meters to km
+				maxDistance = 0.5;
 				break;
 			default:
 				break;
 		}	
-				
-		var q2 = new Parse.Query(Parse.User);
-		q2.withinMiles('location',userGeoPoint,maxDistance);
-		q2.find({
+		
+		var queryFriend = new Parse.Query(Parse.User);
+		queryFriend.withinKilometers("location",userGeoPoint,maxDistance);
+		queryFriend.equalTo("status", true);
+		queryFriend.find({
 			success:function(items){
-				$.each(items,function(i,item){
-					var obj = JSON.parse(JSON.stringify(item));
-						try{
-							latitude = obj.location.latitude;
-							longitude= obj.location.longitude;
-						}
-						catch(err)
-						 {
-							}
-						if(obj.username === currentUsername)
-							{
-								}
-						else{
-						if(obj.status === false)
-							{
-							}
-						else{
-							addMatchesMarker({lat: latitude, lng: longitude}, obj.username, obj.status, obj.occupation, obj.email, 
-							obj.interestList, obj.updatedAt);
-						}
-				}
+		     for (var i = 0; i < items.length; i++) {
+                var latitude = items[i].get("location").latitude;
+                var longitude = items[i].get("location").longitude;
+                addMatchesMarker({lat: latitude, lng: longitude}, items[i].get("username"), items[i].get("status"), items[i].get("occupation"), 
+                items[i].get("email"), items[i].get("interestList"), items[i].get("updatedAt"));
+             }
+		 },
+		 error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+        }
 		});
-		 }
-		});
-	  });
-	}	
-
-
+		
+		
+	});
+}	
 		
 	// Adds a marker to the map and push to the array.
 	function addMatchesMarker(location, username, status, occupation, email, interestList, updatedAt) {
@@ -121,14 +115,14 @@
 			position: location,
 			map: map,
 			animation: google.maps.Animation.DROP,
-			icon: 'http://maps.google.com/mapfiles/ms/micons/red-dot.png',
+			icon: 'http://maps.google.com/mapfiles/ms/micons/green-dot.png',
 			title: username
 		  });
 		  
 		  var stat = "Animated";
 		  if(status === false)
 		  {
-		  stat = "Busy";
+		     stat = "Busy";
 		  }
 		  
 		  
@@ -147,8 +141,6 @@
 		  '<ul><li><b>Last Active:</b>' + dateString + "</li><li>" + stat + 
 		  '</li><li>' + occupation + 
 		  '</li></ul></div>'+
-		  '<div>'+
-		  '<p><b><h6>Interests:' + interestList + '</h6></b><hr/>'+
 		  '</div>';
 
 		 var infowindow = new google.maps.InfoWindow({
@@ -167,10 +159,13 @@
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png',
+			icon: 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png',
 			animation: google.maps.Animation.DROP,
 			title: username,
 		  });
+		  map.setCenter(location);
+		  
+		  
 		  var stat = "Animated";
 		  if(status === false)
 		  {
@@ -282,21 +277,34 @@
 	softSlider.noUiSlider.on('change', function ( values, handle ) {
 		if ( values[handle] < 100 ) {
 			softSlider.noUiSlider.set(50);
+			initMap(0);
+			newRange = true;
+			updateRadius(circle, 50);
 		} else if ( values[handle] > 100 && values[handle] < 250  ) {
 			softSlider.noUiSlider.set(100);
+			initMap(1);
+			newRange = true;
+			updateRadius(circle, 100);
 		}else if ( values[handle] > 250 && values[handle] < 350  ) {
 			softSlider.noUiSlider.set(250);
+			initMap(2);
+			newRange = true;
+			updateRadius(circle, 250);
 		}else if ( values[handle] > 350 && values[handle] < 500  ) {
 			softSlider.noUiSlider.set(350);
-		}else softSlider.noUiSlider.set(500);
-		
-		updateRadius(circle, values);
+			initMap(3);
+			newRange = true;
+			updateRadius(circle, 350);
+		}else{
+		 	softSlider.noUiSlider.set(500);
+		 	initMap(4);
+		 	newRange = true;
+		 	updateRadius(circle, 500);
+		 }
 	});
 
-	
-
 	function updateRadius(circle, rad){
-	  circle.setRadius(rad);
+	  circle.setRadius(rad); //in meters
 	}
 
 
