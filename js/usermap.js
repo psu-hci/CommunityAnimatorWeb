@@ -141,6 +141,7 @@
 		  '<ul><li><b>Last Active:</b>' + dateString + "</li><li>" + stat + 
 		  '</li><li>' + occupation + 
 		  '</li></ul></div>'+
+		  '<button onclick="openWindow()">Let`s chat!</button>'+
 		  '</div>';
 
 		 var infowindow = new google.maps.InfoWindow({
@@ -243,14 +244,14 @@
 	  return strTime;
 	}
 
-	function openWindow(url,width,height,options,name) {
-				width = width ? width : 800;
-				height = height ? height : 600;
-				options = options ? options : 'resizable=yes';
-				name = name ? name : 'openWindow';
+	function openWindow() {
+				width = 900;
+				height = 600;
+				options = 'resizable=yes';
+				name = 'openWindow';
 				window.open(
-					url,
-					name,
+					"https://oauth.groupme.com/oauth/authorize?client_id=RDRxcMqqrOU3Z3IO7t0FiC1GUSfJvu2gkdE8gQoId7jtIPDk",
+					false,
 					'screenX='+(screen.width-width)/2+',screenY='+(screen.height-height)/2+',width='+width+',height='+height+','+options
 				)
 	}
