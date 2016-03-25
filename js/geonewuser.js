@@ -161,7 +161,7 @@ function createInterestList()
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 40.799361, lng: -77.862548},
+    //center: {lat: 40.799361, lng: -77.862548},
     zoom: 16
   });
   

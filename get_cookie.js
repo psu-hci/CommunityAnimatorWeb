@@ -11,6 +11,6 @@
 		}
 		return null;
 	}
-	document.write("n" + readCookie('site'));
+	document.write("n" + readCookie('token'));
 	
 </script>

@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<script>
+<!--<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -30,11 +30,13 @@
   ga('create', 'UA-70177830-1', 'auto');
   ga('send', 'pageview');
 
-</script>
+</script> -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="https://www.parsecdn.com/js/parse-latest.js"></script>
-	  
+  <script type="text/javascript" src="js/jquery-latest.js"></script> 
+  <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="js/userlist.js"></script>
 	  
    <nav>
     <div class="nav-wrapper white">
@@ -61,7 +63,7 @@
 			<input type="text" id="search"/>
 			<label for="search">Type to search...</label>
 			</br></br>
-			<table id="results-table" class="tablesorter">
+			<table id="results-table" class="tablesorter striped responsive-table">
 			<thead>
 				<tr>
 					<th><a href = #><font color = "black">User Name</font>&nbsp<i class="tiny material-icons">swap_vertical_circle</i></a></th>
@@ -77,9 +79,7 @@
   </div>
   </div>
 </body>
-  <script type="text/javascript" src="js/jquery-latest.js"></script> 
-  <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-  <script type="text/javascript" src="js/userlist.js"></script>
+  
 
 
 </html>

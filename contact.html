@@ -29,11 +29,11 @@
 
 	</script>-->
 	
-	  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+	  <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	  <script type="text/javascript" src="js/jquery.form.js"></script>
+	  <script type="text/javascript" src="js/contact.js"></script>
 	  <script type="text/javascript" src="js/materialize.min.js"></script>
-	  <script type="text/javascript" src="https://www.parsecdn.com/js/parse-latest.js"></script>
-	  <script type="text/javascript" src="js/nouislider.min.js"></script>
 
 
 	</head>
@@ -75,26 +75,26 @@
                 </p>
             </div>
             <div class="col s12 m8 black-text">
-                <form id="contactForm" novalidate="novalidate">
+                <form id="contactform" action="processForm.php" method="post" novalidate="novalidate">
                     <div class="input-field">
-                        <input type="text" name="name" required="" data-schema-key="name" maxlength="50"></input>
+                        <input type="text" id="name" name="name" required="" data-schema-key="name" maxlength="50"></input>
                         <label for="name">Name</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" name="email" required="" data-schema-key="email"></input>
+                        <input type="text" id="email" name="email" required="" data-schema-key="email"></input>
                         <label for="email">Email</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" name="subject" data-schema-key="subject"></input>
+                        <input type="text" id="subject" name="subject" data-schema-key="subject"></input>
                         <label for="subject">Subject</label>
                     </div>
                     <div class="input-field">
-                        <textarea class="materialize-textarea" name="message" rows="5" required="" data-schema-key="message" maxlength="1000"></textarea>
+                        <textarea class="materialize-textarea" id="message" name="message" rows="5" required="" data-schema-key="message" maxlength="1000"></textarea>
                         <label for="message">Message</label>
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <button id="send" class="waves-effect waves-light orange accent-2 btn">Send</button>
+                            <button id="send" type="submit" value="Send!" class="waves-effect waves-light orange accent-2 btn">Send</button>
                         </div>
                     </div>
                 </form>
@@ -104,6 +104,5 @@
 
 </div>	
 
-<script type="text/javascript" src="js/contact.js"></script>
 </body>
 </html> 
