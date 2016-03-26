@@ -11,7 +11,7 @@
 	var latitude;
 	var longitude;
 	var currentUsername;
-	var softSlider = document.getElementById('soft');
+	var softSlider;
 	var maxDistance;
 	var newRange = false;	
 	var cookiename; 
@@ -52,13 +52,10 @@
 		 latitude = user.get("location").latitude;
 		 longitude= user.get("location").longitude;
 		 userGeoPoint = user.get("location");
-		 
-		 if(newRange === false){
-		 	distance = user.get("distance");
-		 } else distance = newDistance;
-
-		
-		createSlider(distance); //fix it!!
+		 distance = user.get("distance");
+		// if(newRange === false){
+		//distance = user.get("distance");
+		// } else distance = newDistance;
 		
 		updateStartValue(distance); //radius start value
 		
@@ -71,7 +68,9 @@
 		map: map,
 		radius: iniValue // in meters
 	  });
-		
+	  
+		softSlider.noUiSlider.set(iniValue); //init slider
+
          
 		addUserMarker({lat: latitude, lng: longitude}, user.get("username"), user.get("status"), user.get("occupation"));
 
@@ -272,10 +271,8 @@
 		'max': [ 500 ]
 	};
 
-
-function createSlider(distance){
-
-noUiSlider.create(softSlider, {
+  softSlider = document.getElementById('soft');
+  noUiSlider.create(softSlider, {
 		start: 50,
 		range: range_all_sliders,
 		pips: {
@@ -285,107 +282,32 @@ noUiSlider.create(softSlider, {
 			stepped: true
 		}
 	});
-
-if(distance === 0){
-softSlider.noUiSlider.destroy()
-noUiSlider.create(softSlider, {
-		start: 50,
-		range: range_all_sliders,
-		pips: {
-			mode: 'positions',
-			values: [50,100, 250,350, 500 ],
-			density: 4,
-			stepped: true
-		}
-	});
-}else if(distance === 1){
-
-softSlider.noUiSlider.destroy()
-noUiSlider.create(softSlider, {
-		start: 100,
-		range: range_all_sliders,
-		pips: {
-			mode: 'positions',
-			values: [50,100, 250,350, 500 ],
-			density: 4,
-			stepped: true
-		}
-	});
-}else if(distance === 2){
-
-softSlider.noUiSlider.destroy()
-noUiSlider.create(softSlider, {
-		start: 250,
-		range: range_all_sliders,
-		pips: {
-			mode: 'positions',
-			values: [50,100, 250,350, 500 ],
-			density: 4,
-			stepped: true
-		}
-	});
-}else if(distance === 3){
-
-softSlider.noUiSlider.destroy()
-noUiSlider.create(softSlider, {
-		start: 350,
-		range: range_all_sliders,
-		pips: {
-			mode: 'positions',
-			values: [50,100, 250,350, 500 ],
-			density: 4,
-			stepped: true
-		}
-	});
-}else if(distance === 4){
-
-softSlider.noUiSlider.destroy()
-noUiSlider.create(softSlider, {
-		start: 500,
-		range: range_all_sliders,
-		pips: {
-			mode: 'positions',
-			values: [50,100, 250,350, 500 ],
-			density: 4,
-			stepped: true
-		}
-	});
-}
-
-} 
-
-	
 
 
 	softSlider.noUiSlider.on('change', function ( values, handle ) {
 		if ( values[handle] < 100 ) {
 			softSlider.noUiSlider.set(50);
 			initMap(0);
-			newRange = true;
 			updateRadius(circle, 50);
 			saveNewDistance(0);
 		} else if ( values[handle] > 100 && values[handle] < 250  ) {
 			softSlider.noUiSlider.set(100);
 			initMap(1);
-			newRange = true;
 			updateRadius(circle, 100);
 			saveNewDistance(1);
 		}else if ( values[handle] > 250 && values[handle] < 350  ) {
 			softSlider.noUiSlider.set(250);
 			initMap(2);
-			newRange = true;
 			updateRadius(circle, 250);
 			saveNewDistance(2);
 		}else if ( values[handle] > 350 && values[handle] < 500  ) {
 			softSlider.noUiSlider.set(350);
 			initMap(3);
-			newRange = true;
 			updateRadius(circle, 350);
 			saveNewDistance(3);
 		}else{
 		 	softSlider.noUiSlider.set(500);
 		 	initMap(4);
-		 	newRange = true;
 		 	updateRadius(circle, 500);
 		 	saveNewDistance(4);
 		 }
