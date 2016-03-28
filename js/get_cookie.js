@@ -1,4 +1,4 @@
-<script>
+
 
 	function readCookie(token) {
 		var cookiename = token + "=";
@@ -13,4 +13,25 @@
 	}
 	document.write("n" + readCookie('token'));
 	
-</script>
+	
+	
+	function getUser(token)
+	{
+	 
+  		$.ajax(
+  			{
+        	url: "https://api.groupme.com/v3/users/me?token="+readCookie('token'),
+        	type: 'GET'
+    	}).done( function(data) {
+       		retrievedData = data;
+       		outputData();
+    	});
+
+	}
+	
+	function outputData()
+	{
+	  var jsonObj = retrievedData;
+
+ 	  console.log(JSON.stringify(jsonObj));
+	}

@@ -11,6 +11,5 @@
 	    echo "Cookie '" . $mytoken . "' is set!<br>";
 	    echo "Value is: " . $_COOKIE["token"];
 	}
-
 ?>
 

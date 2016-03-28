@@ -29,6 +29,10 @@ Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4
 
 function createUser(username, password, email, gender, datebirth, occupation)
 {
+   //call groupme authentication
+   openWindow();
+   
+   //save new user 
     createInterestList();
     var user = new Parse.User();
     user.set("username", username);
@@ -210,5 +214,16 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 
+function openWindow() {
+	width = 900;
+	height = 600;
+	options = 'resizable=yes';
+	name = 'openWindow';
+	window.open(
+			"https://oauth.groupme.com/oauth/authorize?client_id=RDRxcMqqrOU3Z3IO7t0FiC1GUSfJvu2gkdE8gQoId7jtIPDk",
+			false,
+			'screenX='+(screen.width-width)/2+',screenY='+(screen.height-height)/2+',width='+width+',height='+height+','+options
+	)
+}
 
 

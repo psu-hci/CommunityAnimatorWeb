@@ -1,3 +1,7 @@
+$( document ).ready(function() {
+		$("#openchat").on('click', function() { openWindow("chat.html",1024,768,this.blur(),false)});
+});
+
 
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
     var tbl = "<br/><center><table class = 'striped'><th><center>Icon<center></th><th><center>Username</center></th><th><center>Status</center></th>";
@@ -7,16 +11,15 @@
 	Parse.User.current().fetch().then(function (user) {
     document.getElementById("welcome").innerHTML = "<center><h2>Welcome " + user.get('username') + "!</h2></center>";
 	
-	//alert(Parse.User.current().get('status'));
+	
 	if(Parse.User.current().get('status') === false)
 		{
-		//alert("it works/false");
+	
 		document.getElementById('switch1').checked = false;
 		}
 		else
 		{
-		//alert("it works/true");
-		document.getElementById('switch1').checked = true;		
+		 document.getElementById('switch1').checked = true;		
 		}
 	
 	
@@ -31,7 +34,7 @@
 		 anim = "Animated";
 		}
 		tbl += "<tr><td><center><img src = 'images/user.png' width = '50' height = '50'/></center></td><td><center>" + obj.username + "</center></td><td><center> " + anim + " </center></td></tr>";
-		//alert(obj.username);
+		
 		});
 	}});
 	
@@ -41,7 +44,6 @@
 	$.each(items,function(i,item){
 		var obj = JSON.parse(JSON.stringify(item));
 		intTbl += "<tr><td> " + obj.interestName + " </td></tr>";
-		//alert(obj.username);
 		});
 	}});
 	});
@@ -49,14 +51,12 @@
 	function displayUsers()
 	{
 		tbl = tbl + "</table></center>";
-		//alert(tbl);
 		document.getElementById("users").innerHTML = tbl;
 	}
 	
 	function displayInterests()
 	{
 		intTbl = intTbl + "</table></center>";
-		//alert(tbl);
 		document.getElementById("interests").innerHTML = intTbl;
 	}
 	
@@ -82,4 +82,41 @@
 		var currentUser = Parse.User.current();
 		return currentUser.save();
 	}
+	
+	function readCookie(token) {
+		var cookiename = token + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++)
+		{
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length,c.length);
+		}
+		return null;
+	}
+	document.write("n" + readCookie('token'));
+	
+	
+	
+	function getUser(token)
+	{
+	 
+  		$.ajax(
+  			{
+        	url: "https://api.groupme.com/v3/users/me?token="+readCookie('token'),
+        	type: 'GET'
+    	}).done( function(data) {
+       		retrievedData = data;
+       		outputData();
+    	});
+
+	}
+	
+	function outputData()
+	{
+	  var jsonObj = retrievedData;
+
+ 	  console.log(JSON.stringify(jsonObj));
+	}
+
 	
