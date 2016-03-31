@@ -3,14 +3,23 @@ $( document ).ready(function() {
 });
 
 
+    var token = 0;
+    
     Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
     var tbl = "<br/><center><table class = 'striped'><th><center>Icon<center></th><th><center>Username</center></th><th><center>Status</center></th>";
 	var intTbl = "<br/><center><table border = 1 class = 'striped'><th>Interests</th>"
 	update();
+	token = readCookie('token');
 
 	Parse.User.current().fetch().then(function (user) {
     document.getElementById("welcome").innerHTML = "<center><h2>Welcome " + user.get('username') + "!</h2></center>";
 	
+	if(token !== 0){
+		Parse.User.current().set("AccessToken",token);
+		Parse.User.current().save();
+		
+		getUser(token);
+	}
 	
 	if(Parse.User.current().get('status') === false)
 		{
@@ -94,7 +103,7 @@ $( document ).ready(function() {
 		}
 		return null;
 	}
-	document.write("n" + readCookie('token'));
+	//document.write("n" + readCookie('token'));
 	
 	
 	
@@ -105,7 +114,7 @@ $( document ).ready(function() {
   			{
         	url: "https://api.groupme.com/v3/users/me?token="+readCookie('token'),
         	type: 'GET'
-    	}).done( function(data) {
+    	}).done( function(data) {  	
        		retrievedData = data;
        		outputData();
     	});
@@ -114,9 +123,23 @@ $( document ).ready(function() {
 	
 	function outputData()
 	{
-	  var jsonObj = retrievedData;
-
- 	  console.log(JSON.stringify(jsonObj));
+	   var jsonObj = retrievedData;
+    
+    	var user_id = jsonObj.response.id;
+	    var phone = jsonObj.response.phone_number;
+	  	var image = jsonObj.response.image_url;
+	  	var name = jsonObj.response.name;
+	  
+	  	//console.log(user_id);
+	  	//console.log(name);
+	  
+	 	Parse.User.current().set("GP_user_id",user_id);
+	  	Parse.User.current().set("GP_phone",phone);
+	  	Parse.User.current().set("GP_image",image);
+	  	Parse.User.current().set("GP_username",name);
+	  	Parse.User.current().save();
+	  
+ 	  //console.log(JSON.stringify(jsonObj));
 	}
 
 	
