@@ -50,27 +50,28 @@
     <h1><center>Log In</center></h1>
     <div class="container">
 	<div class = "row">
-		<form class="col s12">
-			<div class="input-field col s12"></div>
-			<div class="input-field col s12">
-			Username: <input placeholder="username" type="text" name="username" id="username"/></div>
-		</form>
+		<div class="input-field col s12">
+           <i class="material-icons prefix">&#xE7FF;</i>
+           <input type="text" name="username" id="username" class="validate"/>
+           <label for="username">Username</label>
+        </div>
 	</div>
 	
 	
 	<div class = "row">
-	    	<div class="input-field col s12"></div>
-			<div class="input-field col s12">
-			Password:<input placeholder="password" type="password" name="password" id ="password" onkeydown="if (event.keyCode == 13) document.getElementById('submitLogin').click()"/></div>
-		</form>
-	</div>
+		<div class="input-field col s12">
+		<i class="material-icons prefix">&#xE899;</i>
+	    <input type="password" name="password" id ="password" onkeydown="if (event.keyCode == 13) document.getElementById('submitLogin').click()"/>
+	    <label for="password">Password</label>
+	   </div>
     </div>
 	<br/>
-	
-	<center>
-	    <a class="waves-effect waves-light btn orange modal-trigger" href="#modal1">Forgot Password</a>
-		<a class="waves-effect waves-light btn light-green white-text" id = "submitLogin" value="Submit">Log In</a>
-	</center>	 
+	<div class="col s12">
+    	<div class="center-align">
+		    <a class="waves-effect waves-light btn btn-large orange modal-trigger" href="#modal1"><i class="material-icons left">&#xE8FD;</i>Forgot Password</a>
+			<a class="waves-effect waves-light btn btn-large light-green white-text" id = "submitLogin" value="Submit"><i class="material-icons right">&#xE163;</i>Log In</a>
+	    </div>
+	</div>    	 
   </div>
   </div>
   
@@ -79,6 +80,7 @@
     <div class="modal-content">
       <h4>Input your Email</h4>
        <div class="input-field col s12">
+          <i class="material-icons prefix">&#xE0E1;</i>
           <input id="email" type="email" class="validate">
           <label for="email">Email</label>
         </div>       

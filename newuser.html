@@ -22,8 +22,8 @@
 
 </head>
 
-<bodybutton>
-<script>
+<body>
+<!--<script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -32,10 +32,11 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-70177830-1', 'auto');
 ga('send', 'pageview');
 
-</script>
+</script> -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="https://www.parsecdn.com/js/parse-latest.js"></script>
+    <script type="text/javascript" src="js/geonewuser.js"></script>
 
    <!-- Modal Structure -->
   <div id="modal1" class="modal">
@@ -69,63 +70,69 @@ ga('send', 'pageview');
 
             <div class="col s12">
                 <h1><center>Create Account</center></h1>
-                <p>First, we'd like you to create a profile so you can begin meeting people nearby with similar interests. When your profile is set to "animated" others will see your Username, Occupation, and Interest areas.</p>
-                <p> If you would prefer not to share some of this information, you may leave it blank. You can also set your status to "busy" when you are no longer interested in meeting others. By sharing your interests and location, you'll be matched with others nearby with the same interests. </p>
-                <p>If you do not provide interest areas or a location you will not be able to animate.</p></center></h4>
+                <div class="card orange lighten-4">
+                <div class="card-content black-text">
+                  <span class="card-title black-text">Instructions</span>
+                  	<p>First, we'd like you to create a profile so you can begin meeting people nearby with similar interests. When your profile is set to "animated" others will see your Username and Occupation.</p>
+                	<p>If you would prefer not to share some of this information, you may leave it blank. You can also set your status to "busy" when you are no longer interested in meeting others. By sharing your interests and location, you'll be matched with others nearby with the same interests. </p>
+                	<p>If you do not provide interest areas or a location you will not be able to animate.</p></center></h4>
+                </div>
+                </div>
+                <br/><br/>
             </div>	
 
             <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">Username: <input type="text" name="username" id="username" class="validate"/></div>
-                </form>
+                 <div class="input-field col s12">
+                    <i class="material-icons prefix">&#xE7FF;</i>
+                    <input type="text" name="username" id="username" class="validate"/>
+                    <label for="username">Username</label>
+                </div>
+            </div>
+
+            <div class = "row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">&#xE899;</i>
+                    <input type="password" name="password" id ="password" />
+                    <label for="password">Password</label>
+                </div>         
+            </div>
+
+            <div class = "row">
+                    <div class="input-field col s12">
+                     <i class="material-icons prefix">&#xE0E1;</i>
+                     <input type="text" name="email" id = "email" class="validate"/>
+                     <label for="email">Email</label>
+                    </div>  
+            </div>
+
+            <div class = "row">
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix">&#xE87C;</i>
+                      <input type="text" name="gender" id = "gender"/>
+                      <label for="gender">Gender</label>
+                    </div>
+            </div>
+
+            <div class = "row">
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix">&#xE7E9;</i>
+                      <input type="text" name="datebirth" id = "datebirth"/>
+                      <label for="datebirth">Date of Birth (mm/dd/yyyy)</label>
+                    </div>
+            </div>
+
+            <div class = "row">
+                    <div class="input-field col s12">
+                       <i class="material-icons prefix">&#xEB3F;</i>
+                       <input type="text" name="occupation" id = "occupation"/>
+                       <label for="occupation">Occupation</label>
+                   </div>
             </div>
 
             <div class = "row">
                 <form class="col s12">
-                    <div class="input-field col s12"></div>
                     <div class="input-field col s12">
-                        Password: <input type="password" name="password" id ="password" /></div>
-                </form>
-            </div>
-
-            <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">
-                        Email: <input type="text" name="email" id = "email" class="validate"/></div>
-                </form>
-            </div>
-
-            <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">
-                        Gender: <input type="text" name="gender" id = "gender"/></div>
-                </form>
-            </div>
-
-            <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">
-                        Date of Birth (mm/dd/yyyy):<input type="text" name="datebirth" id = "datebirth"/></div>
-                </form>
-            </div>
-
-            <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">
-                        Occupation: <input type="text" name="occupation" id = "occupation"/></div>
-                </form>
-            </div>
-
-            <div class = "row">
-                <form class="col s12">
-                    <div class="input-field col s12"></div>
-                    <div class="input-field col s12">
-                        Interests (check all that apply)
+                       <i class="tiny material-icons">&#xE8DC;</i> Interests (check all that apply):
                         <p>
                         <input type="checkbox" id="ag" />
                         <label for="ag">Agriculture and Food</label>
@@ -206,19 +213,27 @@ ga('send', 'pageview');
             </div>
 
             <div class="col s12">
-                <center>This app uses your interests and your location to introduce you to people that are nearby matches to your interest.Your current location:</center>
-                <br/>
-                <br/>
+                <h3><center> Share your Location</center></h3>
+                <div class="card light-green lighten-3">
+                <div class="card-content black-text">
+                  <span class="card-title black-text">Hint</span>
+                   <p>This app uses your interests and your location to introduce you to people that are nearby matches to your interest. Your current location is below.</p>
+                   <p>You can start a conversation with Animated people using GroupMe app!</p>
+                   <p>You just need to <b>allow</b> Community Animator connect to your GroupMe account.</p>
+                 </div>
+                </div>
+                <br/><br/><br/>
             </div>
-
+            
 	       <div class="row">
                     <div class="col s12">	
                         <center><div id="map"></div><center>
                     </div>
+                    <br/><br/>
             </div>
 
             <div class="col s12">
-                <center><a id= "submit" class="waves-effect waves-light btn orange">Submit</a>
+                <center><a id= "submit" class="waves-effect waves-light btn btn-large orange"><i class="material-icons right">&#xE163;</i>Submit</a>
                     <br/><br/><br/>
                 </center>
                 <br/>
@@ -226,8 +241,6 @@ ga('send', 'pageview');
 
         </div>
     </div>
-
-    <script type="text/javascript" src="js/geonewuser.js"></script>
 
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxXnaSGoxzaQvVUDkFxZe9mimQDNUumlc&signed_in=true&callback=initMap">
