@@ -1,10 +1,7 @@
-/*	$( document ).ready(function() {
-		$("#openchat").on('click', function() { openWindow("chat.html",1024,768,this.blur(),false)});
-	});
-
-*/
 	Parse.initialize("T4lD84ZeLY7615h43jpGlVTG5cXZyXd8ceSGX29e", "KPVDbWy1zWbJD1WPG4HReba5urgHsPVJgh9wX5D1");
-		
+	
+	var recipient_id;
+	var accessToken;
 	var map;
 	var circle;
 	var markers = [];
@@ -108,7 +105,7 @@
                 var latitude = items[i].get("location").latitude;
                 var longitude = items[i].get("location").longitude;
                 addMatchesMarker({lat: latitude, lng: longitude}, items[i].get("username"), items[i].get("status"), items[i].get("occupation"), 
-                items[i].get("email"), items[i].get("interestList"), items[i].get("updatedAt"));
+                items[i].get("email"), items[i].get("interestList"), items[i].get("updatedAt"),items[i].get("GP_user_id"),items[i].get("AccessToken"));
              }
 		 },
 		 error: function(error) {
@@ -121,7 +118,7 @@
 }	
 		
 	// Adds a marker to the map and push to the array.
-	function addMatchesMarker(location, username, status, occupation, email, interestList, updatedAt) {
+	function addMatchesMarker(location, username, status, occupation, email, interestList, updatedAt, GP_user_id, accessToken) {
 		  
 		  var marker = new google.maps.Marker({
 			position: location,
@@ -153,7 +150,7 @@
 		  '<ul><li><b>Last Active:</b>' + dateString + "</li><li>" + stat + 
 		  '</li><li>' + occupation + 
 		  '</li></ul></div>'+
-		  '<button onclick="register_popup(\''+ username +'\')">Open chat</button>'+
+		  '<button onclick="register_popup(\''+GP_user_id+'\',\''+username+'\',\''+accessToken+'\')">Open chat</button>'+
 		  '</div>';
 
 		 var infowindow = new google.maps.InfoWindow({
@@ -397,8 +394,10 @@ function display_popups()
             }
           
 //creates markup for a new popup. Adds the id to popups array.
-function register_popup(name)
+function register_popup(user_id,name,token)
 {
+    recipient_id = user_id;
+    accessToken = token;
                
     for(var iii = 0; iii < popups.length; iii++)
     {  
@@ -415,18 +414,20 @@ function register_popup(name)
                 }
         }              
                
-    var element = '<div class="popup-box chat-popup" id="'+ name +'">';
-    element = element + '<div class="popup-head">';
-    element = element + '<div class="popup-head-left">'+ name +'</div>';
-    element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ name +'\');">&#10005;</a></div>';
-    element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div></div>';
+    var element = '<div class="popup-box chat-popup" id="'+ user_id +'">';
+                element = element + '<div class="popup-head">';
+                element = element + '<div class="popup-head-left">'+ name +'</div>';
+                element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ user_id +'\');">&#10005;</a></div>';
+                element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div>';
+				element = element + '<form name="message" action=""><input name="usermsg" type="text" id="usermsg" size="50"/>';
+				element = element + '<input name="submitmsg" type="submit" id="submitmsg" value="Send" onClick="sendMsg(\''+user_id+'\',\''+token+'\',\''+document.getElementById('usermsg')+'\')" /></form></div>';
                
-    document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element; 
+                document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element; 
        
-    popups.unshift(name);
+    popups.unshift(user_id);
                        
     calculate_popups();
-               
+              
 }
            
 //calculate the total number of popups suitable and then populate the toatal_popups variable.
@@ -452,7 +453,71 @@ function calculate_popups()
 window.addEventListener("resize", calculate_popups);
 window.addEventListener("load", calculate_popups);	
 	
-	
+function sendMsg(recipient_id,accessToken, text){
+var https = require('https');
+
+var urlDM = "https://api.groupme.com/v3/direct_messages?other_user_id="+recipient_id+"&token="+accessToken;
+var msg = text.value;
+
+
+jsonObject = JSON.stringify({
+    "direct_message": {
+    	"source_guid": "GUID",
+    	"recipient_id": recipient_id,
+    	"text": "Hello world "
+      } 
+});
+
+// prepare the header
+var postheaders = {
+    'Content-Type' : 'application/json'
+};
+
+// the post options
+var optionspost = {
+    host : 'api.groupme.com/v3',
+    path : '/direct_messages?other_user_id="+recipient_id+"&token="+accessToken',
+    method : 'POST',
+    headers : postheaders
+};
+
+console.info('Options prepared:');
+console.info(optionspost);
+console.info('Do the POST call');
+
+// do the POST call
+var reqPost = https.request(optionspost, function(res) {
+    console.log("statusCode: ", res.statusCode);
+    // uncomment it for header details
+//  console.log("headers: ", res.headers);
+
+    res.on('data', function(d) {
+        console.info('POST result:\n');
+        process.stdout.write(d);
+        console.info('\n\nPOST completed');
+    });
+});
+
+// write the json data
+reqPost.write(jsonObject);
+reqPost.end();
+reqPost.on('error', function(e) {
+    console.error(e);
+});
+
+//$ curl -X POST -H "Content-Type: application/json" -d '{"name": "Family"}' https://api.groupme.com/v3/groups?token=YOUR_ACCESS_TOKEN
+
+ /*  $.ajax(
+  	{
+        url: urlDM,
+        type: 'POST',
+		data: { source_guid: "GUID", recipient_id: recipient_id, text: "test msg!"},
+    }).done( function(data) {
+       alert("Message sent!");
+    });*/
+
+
+}	
 	
 
 
